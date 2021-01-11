@@ -19,21 +19,29 @@ class _NewsState extends State<News> {
  // Future<List<Supplier>> data;
    List<Widget> imageSliders;
    int _current = 0;
-   List<String> imgList = [
-  'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
-  'https://images.unsplash.com/photo-1522205408450-add114ad53fe?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=368f45b0888aeb0b7b08e3a1084d3ede&auto=format&fit=crop&w=1950&q=80',
-  'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=94a1e718d89ca60a6337a6008341ca50&auto=format&fit=crop&w=1950&q=80',
-  'https://images.unsplash.com/photo-1523205771623-e0faa4d2813d?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=89719a0d55dd05e2deae4120227e6efc&auto=format&fit=crop&w=1953&q=80',
-  'https://images.unsplash.com/photo-1508704019882-f9cf40e475b4?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=8c6e5e3aba713b17aa1fe71ab4f0ae5b&auto=format&fit=crop&w=1352&q=80',
-  'https://images.unsplash.com/photo-1519985176271-adb1088fa94c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=a0c8d632e977f94e5d312d9893258f59&auto=format&fit=crop&w=1355&q=80'
+//    List<String> imgList = [
+//   'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
+//   'https://images.unsplash.com/photo-1522205408450-add114ad53fe?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=368f45b0888aeb0b7b08e3a1084d3ede&auto=format&fit=crop&w=1950&q=80',
+//   'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=94a1e718d89ca60a6337a6008341ca50&auto=format&fit=crop&w=1950&q=80',
+//   'https://images.unsplash.com/photo-1523205771623-e0faa4d2813d?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=89719a0d55dd05e2deae4120227e6efc&auto=format&fit=crop&w=1953&q=80',
+//   'https://images.unsplash.com/photo-1508704019882-f9cf40e475b4?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=8c6e5e3aba713b17aa1fe71ab4f0ae5b&auto=format&fit=crop&w=1352&q=80',
+//   'https://images.unsplash.com/photo-1519985176271-adb1088fa94c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=a0c8d632e977f94e5d312d9893258f59&auto=format&fit=crop&w=1355&q=80'
+// ]; 
+List<String> imgList = [
+  'https://scontent.fmnl9-1.fna.fbcdn.net/v/t1.0-9/136346268_10221399574517531_2283841990153792062_o.jpg?_nc_cat=106&ccb=2&_nc_sid=730e14&_nc_eui2=AeG6rx9Q6ITFrPPlf1wMVBdtzAt9edSgs2TMC3151KCzZArX2rCER1T88AmFd0D-PzBJBtx2kLAPU8MC4ynvl7Cq&_nc_ohc=Ncu0soLdCoAAX9MBFM3&_nc_ht=scontent.fmnl9-1.fna&oh=1ed003c1fb425291b08fe954196473f6&oe=6022565F',
+  'https://scontent.fmnl9-1.fna.fbcdn.net/v/t1.0-9/136074238_10221399744041769_2595715818862734329_n.jpg?_nc_cat=108&ccb=2&_nc_sid=8bfeb9&_nc_eui2=AeFTn8Ts8KXXIj_RzQYxgJGek4_fF4Q-Dy2Tj98XhD4PLYeWPca8iLXW1klqBLSO0FV0zTMVzm-L3cDMJjyWNi3P&_nc_ohc=acXe0kgcLc4AX-mUCOd&_nc_ht=scontent.fmnl9-1.fna&oh=f91734a937de325b09cc47c21e24571a&oe=60218F9D',
+  'https://scontent.fmnl9-1.fna.fbcdn.net/v/t1.0-9/136459939_10221411577337594_4929433602683692607_o.jpg?_nc_cat=104&ccb=2&_nc_sid=730e14&_nc_eui2=AeEwX2ZOrKlyU5cPYSRIadTkVuYdyzfYhOVW5h3LN9iE5ahyVnSTkGv9iBje-eST8FasOud7LaVaRwBWRAFX7gIn&_nc_ohc=qoPRDcre-dYAX9dxn2p&_nc_ht=scontent.fmnl9-1.fna&oh=58c925e1e0ad9453a7fd855ff2ecfcbf&oe=602341DB',
+  'https://scontent.fmnl9-1.fna.fbcdn.net/v/t1.0-9/137080859_10221431931806443_3021646390290378782_o.jpg?_nc_cat=104&ccb=2&_nc_sid=730e14&_nc_eui2=AeHwOwb16eWsZ5rIT4r14vbp8YhPMMtXW4zxiE8wy1dbjGzLw40I9QKngt0xnzD_3Auo4FXPhvw4qEvBpE3OQ1tq&_nc_ohc=RpGZssMneYkAX-JW-MY&_nc_ht=scontent.fmnl9-1.fna&oh=9e5e3698e6501f012522655805baa7e4&oe=60219A10',
+  'https://scontent.fmnl9-1.fna.fbcdn.net/v/t1.0-9/136749181_10160899986584698_2639761650014353933_n.jpg?_nc_cat=100&ccb=2&_nc_sid=8bfeb9&_nc_eui2=AeGov29tWqkFR4SSpgep77-_t54ixhR3eIS3niLGFHd4hP4lY8nDB7a6epdWRRGAI7ReM9yjET2l-iKC3GeEqkYt&_nc_ohc=oVLfLKaionAAX91n0Lb&_nc_ht=scontent.fmnl9-1.fna&oh=213c5932616921bb599a4de7da2fccdd&oe=60235774',
+  'https://scontent.fmnl9-1.fna.fbcdn.net/v/t1.0-9/135891415_10221412708005860_398892527760001295_n.jpg?_nc_cat=108&ccb=2&_nc_sid=8bfeb9&_nc_eui2=AeEBRpjG4nCpLuELT3GqP66tMcej_K6D9Ucxx6P8roP1R2lgEsu_FJmDtlp4NA-lVHdtlDob9d7D0wmE2ZStgad-&_nc_ohc=SMtv4CsLLx8AX-Pcjar&_nc_ht=scontent.fmnl9-1.fna&oh=3a797e7019c2ef4f689403c2c7c578f0&oe=6023119E'
 ]; 
  List<String> headlines = [
-  'Bukas na munisipyo para sa gustong ikasal..',
-  'Naghahanap ng trabaho? Cainta magbukas ng posisyon..',
-  'Tignan ang mga Cainta hot spots..',
-  'Daming ng COVID19 cases bumaba..',
-  'Aakyat ng bundok? Sige lang..',
-  'Basahin ang mga travel tips na ito..'
+  'Road Widening sa A Bonifacio Avenue, nagsimula na..',
+  'Handa na ang Cainta sa COVID19 vaccines..',
+  'Bagong streelights, naipakabit sa Brgy. Sta Rosa..',
+  'Tricot creek cleanup, isinagawa..',
+  'Cainta Business One Stop Shop, ipinatupad..',
+  'Mayor Nieto nagbigay ng ayuda para sa Cainta..'
 ]; 
 String formatDate(DateTime date) => new DateFormat("MMMM d").format(date);
 
