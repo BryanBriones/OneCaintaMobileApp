@@ -46,7 +46,7 @@ String dateSlug ="${DateTime.now().month.toString().padLeft(2,'0')}-${DateTime.n
 
  newsdates = [dateSlug,dateSlug,dateSlug,dateSlug,dateSlug,dateSlug]; 
  imageSliders = imgList.map((item) { 
-        return Container(
+        return GestureDetector( child: Container(
           child: Container(
            margin: EdgeInsets.all(2.0),
             child: ClipRRect(
@@ -95,6 +95,12 @@ String dateSlug ="${DateTime.now().month.toString().padLeft(2,'0')}-${DateTime.n
               )
             ),
           ),
+        ),
+        onTap: () {
+          Navigator.push(context, MaterialPageRoute(builder: (_) {
+                  return NewsDetail(imgList[imgList.indexOf(item)],headlines[imgList.indexOf(item)], newsdates[imgList.indexOf(item)]);})); 
+
+        },
         );}
         ).toList(); 
       

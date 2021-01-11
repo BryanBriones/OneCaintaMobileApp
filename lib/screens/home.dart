@@ -8,6 +8,8 @@ import 'package:onecaintamobileapp/components/home/appbar.dart';
 //Screens
 import 'package:onecaintamobileapp/screens/mainportal.dart';
 import 'package:onecaintamobileapp/screens/news.dart';
+import 'package:onecaintamobileapp/screens/profile.dart';
+import 'package:onecaintamobileapp/screens/login.dart';
 
 
 
@@ -56,12 +58,12 @@ void _closeDrawer() {
   Widget build(BuildContext context) {
     return DefaultTabController( length: 6, initialIndex: _currentIndex,
       child:Scaffold( 
-                    appBar:  AppBarWidget(80, "avatar", "ONE Cainta", "mainTabView","menu",null),
+                    appBar:  AppBarWidget(85, "avatar", "ONE Cainta", "mainTabView","menu",null),
                     body:TabBarView(
                        children:
                                             [Scrollbar(child: SingleChildScrollView(
                                                       child: Container(
-                                                         height:MediaQuery.of(context).size.height * 0.85,
+                                                         height:MediaQuery.of(context).size.height * 0.9,
                                                       decoration: BoxDecoration(
                                                        color: Colors.grey[200],
                                                       borderRadius: BorderRadius.all(Radius.circular(4.0))),
@@ -77,7 +79,7 @@ void _closeDrawer() {
                                               ),
                                                 Scrollbar(child: SingleChildScrollView(
                                                       child: Container(
-                                                       height:MediaQuery.of(context).size.height * 0.85,
+                                                       height:MediaQuery.of(context).size.height * 0.9,
                                                       decoration: BoxDecoration(
                                                        color: Colors.grey[200]),
                                                       child:  
@@ -95,23 +97,43 @@ void _closeDrawer() {
                                               ),
                                               Scrollbar(child: SingleChildScrollView(
                                                       child: Container(
-                                                         height:MediaQuery.of(context).size.height * 0.85,
+                                                         height:MediaQuery.of(context).size.height * 0.9,
                                                       decoration: BoxDecoration(
                                                        color: Colors.grey[200],
                                                       borderRadius: BorderRadius.all(Radius.circular(4.0))),
-                                                      child:  Column( mainAxisAlignment: MainAxisAlignment.center,
-                                                                            crossAxisAlignment: CrossAxisAlignment.center,
-                                                                            children:[Expanded(
-                                                                               child:Center(child:Text("No News Feed Yet"))
-                                                                               ,)
-                                                                             ,]  )
+                                                      child:   Padding(padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.035, 0, MediaQuery.of(context).size.width * 0.035, MediaQuery.of(context).size.height * 0.035),child:
+                                                                        Column( mainAxisAlignment: MainAxisAlignment.center,
+                                                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                                                children:[Expanded(
+                                                                                  child: News()
+                                                                                  )
+                                                                                ,]  )
+                                                                     )     
                                                                         
                                                                 ),
                                                     )
                                               ),
                                                Scrollbar(child: SingleChildScrollView(
                                                       child: Container(
-                                                         height:MediaQuery.of(context).size.height * 0.85,
+                                                         height:MediaQuery.of(context).size.height * 0.9,
+                                                      decoration: BoxDecoration(
+                                                       color: Colors.grey[200],
+                                                      borderRadius: BorderRadius.all(Radius.circular(4.0))),
+                                                      child:  Padding(padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.035, 0, MediaQuery.of(context).size.width * 0.035, MediaQuery.of(context).size.height * 0.035),child:
+                                                                        Column( mainAxisAlignment: MainAxisAlignment.center,
+                                                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                                                children:[Expanded(
+                                                                                  child: News()
+                                                                                  )
+                                                                                ,]  )
+                                                                     )     
+                                                                        
+                                                                ),
+                                                    )
+                                              ),
+                                                   Scrollbar(child: SingleChildScrollView(
+                                                      child: Container(
+                                                         height:MediaQuery.of(context).size.height * 0.9,
                                                       decoration: BoxDecoration(
                                                        color: Colors.grey[200],
                                                       borderRadius: BorderRadius.all(Radius.circular(4.0))),
@@ -127,23 +149,7 @@ void _closeDrawer() {
                                               ),
                                                    Scrollbar(child: SingleChildScrollView(
                                                       child: Container(
-                                                         height:MediaQuery.of(context).size.height * 0.85,
-                                                      decoration: BoxDecoration(
-                                                       color: Colors.grey[200],
-                                                      borderRadius: BorderRadius.all(Radius.circular(4.0))),
-                                                      child:  Column( mainAxisAlignment: MainAxisAlignment.center,
-                                                                            crossAxisAlignment: CrossAxisAlignment.center,
-                                                                            children:[Expanded(
-                                                                               child:Center(child:Text("No News Feed Yet"))
-                                                                               ,)
-                                                                             ,]  )
-                                                                        
-                                                                ),
-                                                    )
-                                              ),
-                                                   Scrollbar(child: SingleChildScrollView(
-                                                      child: Container(
-                                                         height:MediaQuery.of(context).size.height * 0.85,
+                                                         height:MediaQuery.of(context).size.height * 0.9,
                                                       decoration: BoxDecoration(
                                                        color: Colors.grey[200],
                                                       borderRadius: BorderRadius.all(Radius.circular(4.0))),
@@ -182,8 +188,8 @@ void _closeDrawer() {
                 onTap: () {
                   _closeDrawer();
                  Navigator.push(context, MaterialPageRoute(builder: (_) {
-                                                                        //return UserProfile(logindetails);
-                                                                        return null;
+                                                                      
+                                                                        return UserProfile();
                                                                         }));
                 },
              ),
@@ -210,6 +216,8 @@ void _closeDrawer() {
                   // deleteLogonCredentials();
                   //   Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) 
                   //    {return Login();}),(Route<dynamic> route) => false);
+                     Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) 
+                     {return Login();}),(Route<dynamic> route) => false);
                 },
              ),
            

@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:onecaintamobileapp/components/home/appbarbackbtn.dart';
-
+import 'package:onecaintamobileapp/screens/login.dart';
 
 class UserProfile extends StatefulWidget {
   UserProfile();
@@ -133,7 +133,11 @@ showloadingscreen(BuildContext context)
                                                       child: GestureDetector(child:ListTile(
                                                       leading: Icon(Icons.logout,color: Colors.black.withOpacity(0.6), ),
                                                       title:  Padding(padding:EdgeInsets.fromLTRB(2,10,5,5), child:Text("Logout", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: Colors.black))),
-                                                      onTap: null,)),
+                                                      onTap: (){
+                                                         Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) 
+                                                       {return Login();}),(Route<dynamic> route) => false);
+
+                                                      },)),
                                             ),
                                            ])
                                             ),
