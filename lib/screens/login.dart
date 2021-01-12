@@ -1,13 +1,17 @@
-
+import 'dart:convert';
 
 //Flutter Material 
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_brand_icons/flutter_brand_icons.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+
+
 
 //Components
-
-
+import 'package:onecaintamobileapp/utility/flutttertoast.dart';
 //Screens
 import 'package:onecaintamobileapp/screens/home.dart';
 
@@ -26,6 +30,102 @@ class _LoginState extends State<Login>{
   final TextEditingController controller = TextEditingController();
   String initialCountry = 'PH';
   PhoneNumber number = PhoneNumber(isoCode: 'PH');
+  Map<String, dynamic> _userData;
+  AccessToken _accessToken;
+  bool _checking = true;
+
+  @override
+  void initState() { 
+
+     super.initState();
+    _checkIfIsLogged();
+  }
+    Future<void> _checkIfIsLogged() async {
+
+    final AccessToken accessToken = await FacebookAuth.instance.isLogged;
+    setState(() {
+      _checking = false;
+    });
+    if (accessToken != null) {
+      print("is Logged:::: ${accessToken.toJson()}");
+
+      // now you can call GetUserData.
+      final userData = await FacebookAuth.instance.getUserData();
+
+      // final userData = await FacebookAuth.instance.getUserData(fields: "email,birthday,friends,gender,link");
+      _accessToken = accessToken;
+      setState(() {
+        _userData = userData;
+         Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) {
+                                                                                                 return Home(0);}));
+      });
+    }
+  }
+
+  void _printCredentials() {
+    print(
+      _accessToken.toJson(),
+    );
+  }
+
+  Future<void> _login() async {
+    try {
+      // show a circular progress indicator
+      setState(() {
+        _checking = true;
+      });
+         if (_accessToken == null) {
+      _accessToken = await FacebookAuth.instance.login(); // by the fault we request the email and the public profile
+      // loginBehavior is only supported for Android devices, for ios it will be ignored
+      // _accessToken = await FacebookAuth.instance.login(
+      //   permissions: ['email', 'public_profile', 'user_birthday', 'user_friends', 'user_gender', 'user_link'],
+      //   loginBehavior:
+      //       LoginBehavior.DIALOG_ONLY, // (only android) show an authentication dialog instead of redirecting to facebook app
+      // );
+      _printCredentials();
+      // get the user data
+      // by default we get the userId, email,name and picture
+      final userData = await FacebookAuth.instance.getUserData();
+      // final userData = await FacebookAuth.instance.getUserData(fields: "email,birthday,friends,gender,link");
+      _userData = userData;
+         }
+    } on FacebookAuthException catch (e) {
+      // if the facebook login fails
+      print(e.message); // print the error message in console
+      // check the error type
+      switch (e.errorCode) {
+        case FacebookAuthErrorCode.OPERATION_IN_PROGRESS:
+          print("You have a previous login operation in progress");
+          showToast("Previous login operation in progress.");
+          break;
+        case FacebookAuthErrorCode.CANCELLED:
+          print("login cancelled");
+           showToast("Login cancelled.");
+          break;
+        case FacebookAuthErrorCode.FAILED:
+          print("login failed");
+          showToast("Login failed, please try again.");
+          break;
+      }
+    } catch (e, s) {
+      // print in the logs the unknown errors
+      print(e);
+      print(s);
+    } finally {
+      // update the view
+      setState(() {
+        _checking = false;
+            print(_accessToken.toJson());
+           print("Login successful");
+                 Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) {
+                                                                                                 return Home(0);}));
+      });
+    }
+  }
+
+
+
+   
   @override
   Widget build(BuildContext context) {
     return Scaffold( 
@@ -127,12 +227,15 @@ class _LoginState extends State<Login>{
                                                                                   child: Row( mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
                                                                                               Icon(BrandIcons.facebook, color: Colors.white),    
                                                                                             Padding(padding: EdgeInsets.only(left:10)),
-                                                                                            Text("Log in by FB", style: TextStyle(fontSize: 17, color: Colors.white,))
+                                                                                            _userData != null ? Text("Log out", style: TextStyle(fontSize: 17, color: Colors.white,)) : Text("Log in by FB", style: TextStyle(fontSize: 17, color: Colors.white,))
                                                                                             
                                                                                           ],
                                                                                         ), onPressed: (){ 
-                                                                                              // Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) {
-                                                                                              //    return Register('Supplier');}));
+                                                                                        
+                                                                                                    if(_userData == null)
+                                                                                                    {
+                                                                                                      _login();
+                                                                                                    }
                                                                                          
                                                                                         },)),
                                                                          Padding(padding: EdgeInsets.only(top:5)),
@@ -146,6 +249,7 @@ class _LoginState extends State<Login>{
                                                                                         ), onPressed: (){ 
                                                                                               // Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) {
                                                                                               //    return Register('Supplier');}));
+                                                                                        
                                                                                          
                                                                                         },)),
   

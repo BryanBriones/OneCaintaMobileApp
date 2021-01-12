@@ -1,9 +1,11 @@
 
 //Flutter Material 
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
 //Components
 import 'package:onecaintamobileapp/components/home/appbar.dart';
+import 'package:onecaintamobileapp/utility/flutttertoast.dart';
 
 //Screens
 import 'package:onecaintamobileapp/screens/mainportal.dart';
@@ -42,6 +44,16 @@ class _HomeState extends State<Home> {
 // await storage.deleteAll();
 
 // }
+  Future<void> _logOut() async {
+    await FacebookAuth.instance.logOut();
+       print("Logging out now");
+    setState(() {
+    showToast("Logging off...");
+     Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) 
+                     {return Login();}),(Route<dynamic> route) => false);
+
+    });
+  }
 
 void _closeDrawer() {
   Navigator.of(context).pop();
@@ -137,12 +149,14 @@ void _closeDrawer() {
                                                       decoration: BoxDecoration(
                                                        color: Colors.grey[200],
                                                       borderRadius: BorderRadius.all(Radius.circular(4.0))),
-                                                      child:  Column( mainAxisAlignment: MainAxisAlignment.center,
-                                                                            crossAxisAlignment: CrossAxisAlignment.center,
-                                                                            children:[Expanded(
-                                                                               child:Center(child:Text("No News Feed Yet"))
-                                                                               ,)
-                                                                             ,]  )
+                                                      child:  Padding(padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.035, 0, MediaQuery.of(context).size.width * 0.035, MediaQuery.of(context).size.height * 0.035),child:
+                                                                        Column( mainAxisAlignment: MainAxisAlignment.center,
+                                                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                                                children:[Expanded(
+                                                                                  child: News()
+                                                                                  )
+                                                                                ,]  )
+                                                                     )     
                                                                         
                                                                 ),
                                                     )
@@ -153,12 +167,14 @@ void _closeDrawer() {
                                                       decoration: BoxDecoration(
                                                        color: Colors.grey[200],
                                                       borderRadius: BorderRadius.all(Radius.circular(4.0))),
-                                                      child:  Column( mainAxisAlignment: MainAxisAlignment.center,
-                                                                            crossAxisAlignment: CrossAxisAlignment.center,
-                                                                            children:[Expanded(
-                                                                               child:Center(child:Text("No News Feed Yet"))
-                                                                               ,)
-                                                                             ,]  )
+                                                      child:  Padding(padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.035, 0, MediaQuery.of(context).size.width * 0.035, MediaQuery.of(context).size.height * 0.035),child:
+                                                                        Column( mainAxisAlignment: MainAxisAlignment.center,
+                                                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                                                children:[Expanded(
+                                                                                  child: News()
+                                                                                  )
+                                                                                ,]  )
+                                                                     )     
                                                                         
                                                                 ),
                                                     )
@@ -216,8 +232,9 @@ void _closeDrawer() {
                   // deleteLogonCredentials();
                   //   Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) 
                   //    {return Login();}),(Route<dynamic> route) => false);
-                     Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) 
-                     {return Login();}),(Route<dynamic> route) => false);
+
+                  _logOut();
+                    
                 },
              ),
            
