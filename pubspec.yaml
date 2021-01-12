@@ -34,6 +34,7 @@ dependencies:
   flutter_facebook_auth: ^2.0.0
   fluttertoast: ^4.0.0
   expandable: ^4.1.4
+  ez_flutter: ^0.5.0
   
   
   # The following adds the Cupertino Icons font to your application.
@@ -63,8 +64,7 @@ flutter:
   #   - images/a_dot_ham.jpeg
   assets:
     - assets/
-
-
+    - locale/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

@@ -8,12 +8,14 @@ import 'package:flutter_brand_icons/flutter_brand_icons.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:expandable/expandable.dart';
+import 'package:ez_flutter/ez_flutter.dart';
 
 //Models
 import 'package:onecaintamobileapp/model/fbusermodel.dart';
 
 //Components
 import 'package:onecaintamobileapp/utility/flutttertoast.dart';
+import 'package:onecaintamobileapp/utility/loadingscreen.dart';
 //Screens
 import 'package:onecaintamobileapp/screens/home.dart';
 
@@ -73,19 +75,22 @@ class _LoginState extends State<Login>{
     );
   }
 
-  Future<void> _login() async {
+  void _login() async {
+
+     EzLoadingBloc bloc =
+        EzBlocProvider.of<EzGlobalBloc>(context).get(EzLoadingBloc);
     try {
-      // show a circular progress indicator
-      setState(() {
-        _checking = true;
-      });
+       
+        bloc.addition.add("Loading 10%");
+
          if (_accessToken == null) {
       _accessToken = await FacebookAuth.instance.login(); 
       _printCredentials();
-
+        bloc.addition.add("Loading 20%");
       // get the user data
       final userData = await FacebookAuth.instance.getUserData(fields: fieldsToGet);
       _userData = userData;
+       bloc.addition.add("Loading 30%");
          }
     } on FacebookAuthException catch (e) {
       // if the facebook login fails
@@ -112,9 +117,13 @@ class _LoginState extends State<Login>{
       setState(() {
         _checking = false;
            print("Login successful");
+            bloc.addition.add("Loading 70%");
             logindetails = FBUserModel.getUserProfileFB(_userData);
-                 Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) {
-                                           return Home(1, logindetails);}));
+             bloc.addition.add("Loading 90%");
+
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) {
+              return Home(1, logindetails);}));     
+           
       });
     }
   }
@@ -172,7 +181,14 @@ class _LoginState extends State<Login>{
                                                                                         
                                                                                                     if(_userData == null)
                                                                                                     {
-                                                                                                      _login();
+                                                                                                                                                                             
+                                                                                                     Navigator.push(
+                                                                                                                context,
+                                                                                                                MaterialPageRoute(
+                                                                                                                    builder: (context) => EzTransition(LoadingScreen(),
+                                                                                                                        _login,
+                                                                                                                        backgroundColor: Colors.white)),
+                                                                                                              );
                                                                                                     }
                                                                                          
                                                                                         },))),
@@ -187,7 +203,7 @@ class _LoginState extends State<Login>{
                                                                                         ), onPressed: (){ 
                                                                                               // Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) {
                                                                                               //    return Register('Supplier');}));
-                                                                                        
+                                                                                            
                                                                                          
                                                                                         },)),
 
