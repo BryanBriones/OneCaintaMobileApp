@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+//Models
+import 'package:onecaintamobileapp/model/fbusermodel.dart';
+
 //Screens
 import 'package:onecaintamobileapp/screens/profile.dart';
 
@@ -12,18 +15,18 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
        final String title;
        final String tabMenu;
        final String leadingAction;
-        //  final UserModel logindetails;
+       final FBUserModel logindetails;
           void openDrawer;
-  AppBarWidget(this.appbarSize, this.actionMenu, this.title, this.tabMenu, this.leadingAction, this.openDrawer);
+  AppBarWidget(this.appbarSize, this.actionMenu, this.title, this.tabMenu, this.leadingAction, this.openDrawer, this.logindetails);
 @override
   Widget build(BuildContext context) { 
       return AppBar(
                                       automaticallyImplyLeading: false,
-                                      leading: GetLeadingFunction(context, leadingAction, openDrawer),
+                                   //   leading: GetLeadingFunction(context, leadingAction, openDrawer),
                                       centerTitle: false,
-                                      title: Text(title, style: TextStyle(color: Colors.white, fontSize: 23),),
+                                      title: Padding( padding: EdgeInsets.only(top:10), child:Text(title, style: TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.bold),)),
                                       backgroundColor: Colors.blue[900],
-                                      actions: GetAppBarFunctions(context,actionMenu),
+                                      actions: GetAppBarFunctions(context,actionMenu,logindetails),
                                       bottom: GetAppBarTabView(tabMenu),
                                     
                                     );
@@ -35,15 +38,19 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
 
 
 
-List<Widget> GetAppBarFunctions(BuildContext context, String action)
+List<Widget> GetAppBarFunctions(BuildContext context, String action, FBUserModel logindetails)
 {
-  List<Widget> sideBarActions = [];
-  IconButton avatarActions = IconButton(icon: CircleAvatar(child:Icon(Icons.person, color: Colors.white, size: 30,), backgroundColor: Colors.transparent,),
-                                             onPressed: (){
+  List<Widget> sideBarActions = [];    
+
+  GestureDetector avatarActions = GestureDetector( child:
+                                          Padding( padding: EdgeInsets.fromLTRB(0,5,5,0), child:CircleAvatar(radius:25, backgroundImage: logindetails == null ? AssetImage('assets/emptyavatar.png') : NetworkImage(logindetails.picture.data.url), backgroundColor: Colors.transparent,),
+                                        ),
+                                          onTap: (){
                                                 Navigator.push(context, MaterialPageRoute(builder: (_) {
-                                                          return UserProfile();
-                                                    }));}
-                                                      );
+                                                          return UserProfile(logindetails);
+                                            }));}
+                                      );
+                                                      
  
   if (action=="avatar")
     sideBarActions.add(avatarActions);
@@ -71,19 +78,16 @@ Widget GetAppBarTabView(String action)
                       Tab(
                         child: Text('Recent News', style: TextStyle(color: Colors.white),),
                       ),
+                      Tab(
+                        child: Text('COVID-19 Updates', style: TextStyle(color: Colors.white),),
+                      ),
                        Tab(
                         child: Text('Programs/Awards', style: TextStyle(color: Colors.white),),
                       ),
                       Tab(
-                        child: Text('Traffic Reports', style: TextStyle(color: Colors.white),),
-                      ),
-                      Tab(
                         child: Text('Disaster Preparedness', style: TextStyle(color: Colors.white),),
-                      ),
-                       Tab(
-                        child: Text('Peace and Order', style: TextStyle(color: Colors.white),),
-                      ),
-                     
+                      )
+
                     ]),
                 preferredSize: Size.fromHeight(30.0),);
 

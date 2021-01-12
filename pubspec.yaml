@@ -33,6 +33,7 @@ dependencies:
   flutter_launcher_icons: ^0.8.1
   flutter_facebook_auth: ^2.0.0
   fluttertoast: ^4.0.0
+  expandable: ^4.1.4
   
   
   # The following adds the Cupertino Icons font to your application.

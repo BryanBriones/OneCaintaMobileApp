@@ -1,26 +1,34 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:onecaintamobileapp/utility/flutttertoast.dart';
 import 'package:onecaintamobileapp/components/home/appbarbackbtn.dart';
 import 'package:onecaintamobileapp/screens/login.dart';
 
+//Models
+import 'package:onecaintamobileapp/model/fbusermodel.dart';
+
 class UserProfile extends StatefulWidget {
-  UserProfile();
+  final FBUserModel logindetails;
+  UserProfile(this.logindetails);
  @override
  State<StatefulWidget> createState() {
-    return _UserProfileState();
+    return _UserProfileState(this.logindetails);
   }
 }
 
 class _UserProfileState extends State<UserProfile> with TickerProviderStateMixin{
-_UserProfileState();
 
+  final FBUserModel logindetails;
+
+_UserProfileState(this.logindetails);
 bool IsRefresh = false;
 bool isLoading = false;
 showloadingscreen(BuildContext context)
    {
          
     AlertDialog alert=AlertDialog(
-           backgroundColor: Colors.yellow[700],
+           backgroundColor: Colors.blue[900],
       content: new Row(
         children: [
           CircularProgressIndicator(valueColor: new AlwaysStoppedAnimation<Color>(Colors.white)),
@@ -44,12 +52,17 @@ showloadingscreen(BuildContext context)
     setState(() {
         
         });
-  
-  //  Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) {
-  //                return Home(1,logindetails);
-  //                 }));
-  
   }
+
+  Future<void> _logOut() async {
+  await FacebookAuth.instance.logOut();
+     print("Logging out now");
+  setState(() {
+  showToast("Logging off...");
+   Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) 
+                   {return Login();}),(Route<dynamic> route) => false);
+  });
+}
 
 
   @override
@@ -65,11 +78,11 @@ showloadingscreen(BuildContext context)
                                            child:Column(                  
                                                 children:  [
                                                 ListTile(
-                                                      title:  Padding(padding:EdgeInsets.fromLTRB(2,10,5,5), child:Text("Hello Bryan,", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22, color: Colors.blue[900]))),
-                                                      subtitle: Padding(padding:EdgeInsets.all(5), child:Text('aaronbryan.briones@gmail.com',style: TextStyle(color: Colors.black.withOpacity(0.6)))), //Email Address
+                                                      title:  Padding(padding:EdgeInsets.fromLTRB(2,10,5,5), child: logindetails == null ?  Text("Hello, User", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22, color: Colors.blue[900])) :  Text("Hello, " +  logindetails.firstName, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22, color: Colors.blue[900]))),
+                                                      subtitle: Padding(padding:EdgeInsets.all(5), child: logindetails == null ?  Text("Please sign in to unlock other One Cainta features", style: TextStyle(color: Colors.black.withOpacity(0.6))) : Text(logindetails.email,style: TextStyle(color: Colors.black.withOpacity(0.6)))), //Email Address
                                                       trailing: CircleAvatar(
                                                         radius: 30.0,
-                                                        backgroundImage: NetworkImage("https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80"),
+                                                        backgroundImage: logindetails == null ? AssetImage('assets/emptyavatar.png') : NetworkImage(logindetails.picture.data.url),
                                                         backgroundColor: Colors.transparent
                                                         ) ,
                                                       ),
@@ -99,15 +112,7 @@ showloadingscreen(BuildContext context)
                                             ],
                                             ),
                                             Padding(padding: EdgeInsets.only(top:10), child: Divider( color: Colors.grey.withOpacity(0.6))),
-                                            InkWell(
-                                                      onTap: () => true,
-                                                      splashFactory: InkRipple.splashFactory,
-                                                      highlightColor: Colors.blue[100],
-                                                      child: GestureDetector(child:ListTile(
-                                                      leading: Icon(Icons.book_outlined,color: Colors.black.withOpacity(0.6), ),
-                                                      title:  Padding(padding:EdgeInsets.fromLTRB(2,10,5,5), child:Text("Download Forms", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: Colors.black))),
-                                                      onTap: null,)),
-                                            ),
+
                                              InkWell(
                                                       onTap: () => true,
                                                       splashFactory: InkRipple.splashFactory,
@@ -134,8 +139,7 @@ showloadingscreen(BuildContext context)
                                                       leading: Icon(Icons.logout,color: Colors.black.withOpacity(0.6), ),
                                                       title:  Padding(padding:EdgeInsets.fromLTRB(2,10,5,5), child:Text("Logout", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: Colors.black))),
                                                       onTap: (){
-                                                         Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) 
-                                                       {return Login();}),(Route<dynamic> route) => false);
+                                                         _logOut();
 
                                                       },)),
                                             ),
