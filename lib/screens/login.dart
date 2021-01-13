@@ -135,19 +135,25 @@ class _LoginState extends State<Login>{
   Widget build(BuildContext context) {
     return Scaffold( 
           resizeToAvoidBottomInset: false,   
-          floatingActionButton:  FloatingActionButton.extended(
-                            elevation: 40.0,
+          floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterDocked,
+          floatingActionButton: Container(
+                            height:80.0,
+                            width: 250.0,
+                            child: FittedBox( child:FloatingActionButton.extended(
+                                                elevation: 40.0,
+                                                icon: Icon(Icons.chevron_right,color: Colors.white.withOpacity(0.9),),
+                                                label:  Text("Mga Balita sa Cainta Ngayon", style: TextStyle(color: Colors.white.withOpacity(0.9))),
+                                                backgroundColor: Colors.blue[500],
+                                                onPressed: ()
+                                                {
+                                                 
+                                                       Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) {
+                                                        return Home(1, logindetails);}));
 
-                            icon: Icon(Icons.chevron_right,color: Colors.white.withOpacity(0.9),),
-                             label:  Text("Mga Balita", style: TextStyle(color: Colors.white.withOpacity(0.9))),
-                            backgroundColor: Colors.blue[500],
-                            onPressed: ()
-                            {
-                              Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) {
-                                                                                                 return Home(1, logindetails);}));
-                            }     
-                        
-                          ),
+                                                
+                                                }     
+                                            
+                          ))),
                 body:Container( height: MediaQuery.of(context).size.height,
                                 decoration: BoxDecoration(
                                 color: Colors.white,
@@ -162,7 +168,7 @@ class _LoginState extends State<Login>{
                                                                    child:
                                                                    Column(
                                                                        children: <Widget>[
-                                                                      Padding(padding: EdgeInsets.only(top:MediaQuery.of(context).size.height * .10)),
+                                                                      Padding(padding: EdgeInsets.only(top:MediaQuery.of(context).size.height * .13)),
                                                                           Container(width: 80, height:80, 
                                                                                   decoration: new BoxDecoration(
                                                                                     image: new DecorationImage(
@@ -285,7 +291,26 @@ class _LoginState extends State<Login>{
                                                                                   )
                                                              
                                                                         ])
-                                                                         )
+                                                                         ),
+
+                                                                    Column(children: [
+                                                                          Padding(padding: EdgeInsets.only(bottom:15),),
+                                                                        Center( child:(Text("By continuing, you agree to our", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.blue[900].withOpacity(0.8), fontSize: 11))
+                                                                           ),
+                                                                        ),
+                                                                  
+                                                                      GestureDetector(child: Text("Terms of Service - Privacy Policy - Content Policy", style: TextStyle(decoration: TextDecoration.underline, fontWeight: FontWeight.bold, color: Colors.blue[900].withOpacity(0.8), fontSize: 11)),
+                                                                              
+                                                                             )
+
+
+                                                                    ],)
+                                   
+                                                                           
+                                                                         
+
+
+                                                                        
 
 
         ])) 
