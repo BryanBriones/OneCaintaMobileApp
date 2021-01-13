@@ -177,10 +177,10 @@ String dateSlug ="${DateTime.now().month.toString().padLeft(2,'0')}-${DateTime.n
             
           Container( 
                  color:  Colors.transparent,
-                 height:  MediaQuery.of(context).size.height * 1.7,
                    child: ListView.builder(
                                       physics: NeverScrollableScrollPhysics(),
                                       itemCount: 6,
+                                      shrinkWrap: true,
                                       itemBuilder: (BuildContext context, int index){
                                         return GestureDetector( child: 
                                         Card(                                
@@ -245,7 +245,7 @@ String dateSlug ="${DateTime.now().month.toString().padLeft(2,'0')}-${DateTime.n
                                      },                 
                                       );
                                   })
-                    ) 
+                   ) 
     ]),    
     ),        
     ),                            

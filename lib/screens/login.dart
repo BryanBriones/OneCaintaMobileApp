@@ -110,6 +110,11 @@ class _LoginState extends State<Login>{
           showToast("Login failed, please try again.");
           break;
       }
+
+      
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) {
+              return Login();}));    
+      
     } catch (e, s) {
       print(e);
       print(s);
@@ -138,7 +143,7 @@ class _LoginState extends State<Login>{
           floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterDocked,
           floatingActionButton: Container(
                             height:80.0,
-                            width: 250.0,
+                            width: 290.0,
                             child: FittedBox( child:FloatingActionButton.extended(
                                                 elevation: 40.0,
                                                 icon: Icon(Icons.chevron_right,color: Colors.white.withOpacity(0.9),),
@@ -178,7 +183,7 @@ class _LoginState extends State<Login>{
                                                                                     ),)),       
                                                                         Center(child:Text("One Cainta", style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold, color: Colors.blue[900]),)),
                                                                       
-                                                                        Padding( padding: EdgeInsets.only(top:55), child:SizedBox(width: 210, height:50,  child:FlatButton(color: Colors.blue[500], 
+                                                                        Padding( padding: EdgeInsets.only(top:55), child:SizedBox(width: 220, height:50,  child:FlatButton(color: Colors.blue[500], 
                                                                                   child: Row( mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
                                                                                               Icon(BrandIcons.facebook, color: Colors.white),    
                                                                                             Padding(padding: EdgeInsets.only(left:10)),Text("Log in by Facebook", style: TextStyle(fontSize: 17, color: Colors.white,))
@@ -199,7 +204,7 @@ class _LoginState extends State<Login>{
                                                                                          
                                                                                         },))),
                                                                          Padding(padding: EdgeInsets.only(top:15)),
-                                                                         SizedBox(width: 210, height:50,  child:FlatButton(color: Colors.blue[500], 
+                                                                         SizedBox(width: 220, height:50,  child:FlatButton(color: Colors.blue[500], 
                                                                                   child: Row( mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
                                                                                               Icon(BrandIcons.google, color: Colors.white),   
                                                                                             Padding(padding: EdgeInsets.only(left:10)),
@@ -238,7 +243,7 @@ class _LoginState extends State<Login>{
                                                                           children: [
                                                                             Expandable(           // <-- Driven by ExpandableController from ExpandableNotifier
                                                                                       collapsed: ExpandableButton(  // <-- Expands when tapped on the cover photo
-                                                                                        child: Padding( padding: EdgeInsets.only(top:30), child: SizedBox(width: 210, height:50,  child: Container(color: Colors.blue[500],
+                                                                                        child: Padding( padding: EdgeInsets.only(top:30), child: SizedBox(width: 220, height:50,  child: Container(color: Colors.blue[500],
                                                                                   child: Row( mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
                                                                                               Icon(Icons.phone, color: Colors.white),    //Icon(Icons.person_pin, size:30, color: Colors.white),
                                                                                             Padding(padding: EdgeInsets.only(left:10)),
@@ -251,7 +256,7 @@ class _LoginState extends State<Login>{
                                                                                       ),
                                                                               expanded: Column(  
                                                                                 children: [
-                                                                                   Padding(padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.height * .05,0,MediaQuery.of(context).size.height * .05,20), child: InternationalPhoneNumberInput(
+                                                                                   Padding(padding: EdgeInsets.fromLTRB(20,0,20,20), child: InternationalPhoneNumberInput(
                                                                                       onInputChanged: (PhoneNumber number) {
                                                                                         print(number.phoneNumber);
                                                                                       },
@@ -274,7 +279,7 @@ class _LoginState extends State<Login>{
                                                                                         print('On Saved: $number');
                                                                                       },
                                                                                     ),),
-                                                                           SizedBox(width: 210, height:40,  child:FlatButton(color: Colors.blue[500], 
+                                                                           SizedBox(width: 220, height:40,  child:FlatButton(color: Colors.blue[500], 
                                                                                   child: Row( mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
                                                                                               Icon(Icons.phone, color: Colors.white),    
                                                                                             Padding(padding: EdgeInsets.only(left:10)),
