@@ -13,6 +13,7 @@ import 'package:onecaintamobileapp/components/home/appbar.dart';
 //Screens
 import 'package:onecaintamobileapp/screens/mainportal.dart';
 import 'package:onecaintamobileapp/screens/news.dart';
+import 'package:onecaintamobileapp/screens/covid19updates.dart';
 
 
 
@@ -118,7 +119,7 @@ class _HomeState extends State<Home> {
                                                                         Column( mainAxisAlignment: MainAxisAlignment.center,
                                                                                 crossAxisAlignment: CrossAxisAlignment.center,
                                                                                 children:[Expanded(
-                                                                                  child: News()
+                                                                                  child: COVID19Update()
                                                                                   )
                                                                                 ,]  )
                                                                      )     

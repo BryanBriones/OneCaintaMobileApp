@@ -75,6 +75,22 @@ class _LoginState extends State<Login>{
     );
   }
 
+    void goToNews() async
+    {
+
+
+       EzLoadingBloc bloc =EzBlocProvider.of<EzGlobalBloc>(context).get(EzLoadingBloc);
+
+        for (int i = 0; i < 101; i++) {
+           bloc.addition.add("Loading $i%");
+         await new Future.delayed(const Duration(milliseconds: 15));
+        }
+
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) {
+                                                         return Home(1, logindetails);}));
+
+    }
+
   void _login() async {
 
      EzLoadingBloc bloc =
@@ -152,8 +168,16 @@ class _LoginState extends State<Login>{
                                                 onPressed: ()
                                                 {
                                                  
-                                                       Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) {
-                                                        return Home(1, logindetails);}));
+                                                      //  Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) {
+                                                      //   return Home(1, logindetails);}));
+
+                                                         Navigator.push(
+                                                                                                                context,
+                                                                                                                MaterialPageRoute(
+                                                                                                                    builder: (context) => EzTransition(LoadingScreen(),
+                                                                                                                        goToNews,
+                                                                                                                        backgroundColor: Colors.white)),
+                                                                                                              );
 
                                                 
                                                 }     
