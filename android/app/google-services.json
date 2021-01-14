@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "514306123571",
+    "project_id": "onecainta-132ef",
+    "storage_bucket": "onecainta-132ef.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:514306123571:android:2f68f61fa97594baf34046",
+        "android_client_info": {
+          "package_name": "com.example.onecaintamobileapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "514306123571-sf617j0reusi5amc6438tspph8ttcvka.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.onecaintamobileapp",
+            "certificate_hash": "cdf6c1b0091bdf28d64de3fa5166944377fb1cf3"
+          }
+        },
+        {
+          "client_id": "514306123571-tvngv7r3liv4fgl378a4su1rladvme06.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAaCDw3gsQFtL-drS20ikTbThMVCEv9YyI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "514306123571-tvngv7r3liv4fgl378a4su1rladvme06.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

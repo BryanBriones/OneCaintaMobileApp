@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 //Models
 import 'package:onecaintamobileapp/model/fbusermodel.dart';
+import 'package:onecaintamobileapp/model/googleusermodel.dart';
 
 //Components
 import 'package:onecaintamobileapp/components/home/appbar.dart';
@@ -17,44 +18,29 @@ import 'package:onecaintamobileapp/screens/covid19updates.dart';
 
 
 
-
-
 class Home extends StatefulWidget {
   int index =0;
-  FBUserModel logindetails;
-  Home(this.index, this.logindetails);
+  final FBUserModel fblogindetails;
+  final GoogleUserModel googlelogindetails;
+  Home(this.index, this.fblogindetails, this.googlelogindetails);
  @override
  State<StatefulWidget> createState() {
-    return _HomeState(index, logindetails);
+    return _HomeState(this.index, this.fblogindetails, this.googlelogindetails);
   }
 }
 
 class _HomeState extends State<Home> {
   int _currentIndex = 0;
-   final FBUserModel logindetails;
-  _HomeState(this._currentIndex, this.logindetails);
+   final FBUserModel fblogindetails;
+  final GoogleUserModel googlelogindetails;
+  _HomeState(this._currentIndex, this.fblogindetails,this.googlelogindetails);
+  
    List<Widget> _children =[];
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  void _openDrawer() {
-  _scaffoldKey.currentState.openDrawer();
-}
-// deleteLogonCredentials() async{
-//                   // Create storage
-// final storage = new FlutterSecureStorage();
 
-// // Delete all 
-// await storage.deleteAll();
-
-// }
-// Future<void> _logOut() async {
-//   await FacebookAuth.instance.logOut();
-//      print("Logging out now");
-//   setState(() {
-//   showToast("Logging off...");
-//    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) 
-//                    {return Login();}),(Route<dynamic> route) => false);
-//   });
+//   void _openDrawer() {
+//   _scaffoldKey.currentState.openDrawer();
 // }
 // void _closeDrawer() {
 //   Navigator.of(context).pop();
@@ -71,7 +57,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return DefaultTabController( length: 5, initialIndex: _currentIndex,
       child:Scaffold( 
-                    appBar:  AppBarWidget(90, "avatar", "One Cainta", "mainTabView","menu",null,logindetails),
+                    appBar:  AppBarWidget(90, "avatar", "One Cainta", "mainTabView","menu",null,fblogindetails,googlelogindetails),
                     body:TabBarView(
                        children:
                                             [
@@ -219,16 +205,7 @@ class _HomeState extends State<Home> {
                        )
     );
   }
- 
- 
- //BOTTOM MENU NAVIGATION SET STATE METHOD
-  void onTabTapped(int index) {
-    setState(() {
-   
-        _currentIndex = index;
- 
-    });
-  }
+
  }
 
 

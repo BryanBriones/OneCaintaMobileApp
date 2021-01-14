@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 //Models
 import 'package:onecaintamobileapp/model/fbusermodel.dart';
+import 'package:onecaintamobileapp/model/googleusermodel.dart';
 
 //Screens
 import 'package:onecaintamobileapp/screens/profile.dart';
@@ -11,22 +12,23 @@ import 'package:onecaintamobileapp/screens/profile.dart';
 
 class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
   final double appbarSize;
-    final String actionMenu;
-       final String title;
-       final String tabMenu;
-       final String leadingAction;
-       final FBUserModel logindetails;
-          void openDrawer;
-  AppBarWidget(this.appbarSize, this.actionMenu, this.title, this.tabMenu, this.leadingAction, this.openDrawer, this.logindetails);
+  final String actionMenu;
+  final String title;
+  final String tabMenu;
+  final String leadingAction;
+  final FBUserModel fblogindetails;
+  final GoogleUserModel googlelogindetails;
+    void openDrawer;
+  AppBarWidget(this.appbarSize, this.actionMenu, this.title, this.tabMenu, this.leadingAction, this.openDrawer, this.fblogindetails, this.googlelogindetails);
 @override
   Widget build(BuildContext context) { 
       return AppBar(
                                       automaticallyImplyLeading: false,
-                                   //   leading: GetLeadingFunction(context, leadingAction, openDrawer),
+                                   // leading: GetLeadingFunction(context, leadingAction, openDrawer),
                                       centerTitle: false,
                                       title: Padding( padding: EdgeInsets.only(top:10), child:Text(title, style: TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.bold),)),
                                       backgroundColor: Colors.blue[900],
-                                      actions: GetAppBarFunctions(context,actionMenu,logindetails),
+                                      actions: GetAppBarFunctions(context,actionMenu,fblogindetails, googlelogindetails),
                                       bottom: GetAppBarTabView(tabMenu),
                                     
                                     );
@@ -38,18 +40,39 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
 
 
 
-List<Widget> GetAppBarFunctions(BuildContext context, String action, FBUserModel logindetails)
+List<Widget> GetAppBarFunctions(BuildContext context, String action, FBUserModel fblogindetails,GoogleUserModel googlelogindetails)
 {
   List<Widget> sideBarActions = [];    
 
-  GestureDetector avatarActions = GestureDetector( child:
-                                          Padding( padding: EdgeInsets.fromLTRB(0,5,5,0), child:CircleAvatar(radius:25, backgroundImage: logindetails == null ? AssetImage('assets/emptyavatar.png') : NetworkImage(logindetails.picture.data.url), backgroundColor: Colors.transparent,),
+
+
+  GestureDetector avatarActions =  fblogindetails != null ?
+                                     GestureDetector( child: //IF FB LOGIN
+                                          Padding( padding: EdgeInsets.fromLTRB(0,5,5,0), child:CircleAvatar(radius:25, backgroundImage: fblogindetails == null ? AssetImage('assets/emptyavatar.png') : NetworkImage(fblogindetails.picture.data.url), backgroundColor: Colors.transparent,),
                                         ),
                                           onTap: (){
                                                 Navigator.push(context, MaterialPageRoute(builder: (_) {
-                                                          return UserProfile(logindetails);
+                                                          return UserProfile(fblogindetails, null);
+                                            }));}
+                                      ) : 
+                                    googlelogindetails != null ? //IF GOOGLE LOGIN
+                                    GestureDetector( child:
+                                          Padding( padding: EdgeInsets.fromLTRB(0,5,5,0), child:CircleAvatar(radius:25, backgroundImage: googlelogindetails == null ? AssetImage('assets/emptyavatar.png') : NetworkImage(googlelogindetails.photoUrl), backgroundColor: Colors.transparent,),
+                                        ),
+                                          onTap: (){
+                                                Navigator.push(context, MaterialPageRoute(builder: (_) {
+                                                          return UserProfile(null, googlelogindetails);
+                                            }));}
+                                      ) : 
+                                        GestureDetector( child: //IF OTP OR NO LOGIN
+                                          Padding( padding: EdgeInsets.fromLTRB(0,5,5,0), child:CircleAvatar(radius:25, backgroundImage: AssetImage('assets/emptyavatar.png'), backgroundColor: Colors.transparent,),
+                                        ),
+                                          onTap: (){
+                                                Navigator.push(context, MaterialPageRoute(builder: (_) {
+                                                          return UserProfile(null, null);
                                             }));}
                                       );
+
                                                       
  
   if (action=="avatar")

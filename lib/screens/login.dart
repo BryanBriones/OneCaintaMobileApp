@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 //Flutter Material 
 
@@ -9,9 +10,11 @@ import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:expandable/expandable.dart';
 import 'package:ez_flutter/ez_flutter.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
-//Models
+//Model/s
 import 'package:onecaintamobileapp/model/fbusermodel.dart';
+import 'package:onecaintamobileapp/model/googleusermodel.dart';
 
 //Components
 import 'package:onecaintamobileapp/utility/flutttertoast.dart';
@@ -35,45 +38,24 @@ class _LoginState extends State<Login>{
   String initialCountry = 'PH';
   PhoneNumber number = PhoneNumber(isoCode: 'PH');
 
-  //FBDATA
-  Map<String, dynamic> _userData;
+  //FBDATA------------------------------------------------------------------
+  Map<String, dynamic> _fbuserData;
   AccessToken _accessToken;
-  FBUserModel logindetails;
-  bool _checking = true;
+  FBUserModel fblogindetails;
   String fieldsToGet = "first_name,last_name,email,picture.width(200)";
 
-  @override
-  void initState() { 
-
-     super.initState();
-    _checkIfIsLogged();
-  }
-    Future<void> _checkIfIsLogged() async {
-
-    final AccessToken accessToken = await FacebookAuth.instance.isLogged;
-    setState(() {
-      _checking = false;
-    });
-    if (accessToken != null) {
-      print("is Logged:::: ${accessToken.toJson()}");
-  
-      // now you can call GetUserData.
-      final userData = await FacebookAuth.instance.getUserData(fields: fieldsToGet);
-      _accessToken = accessToken;
-      setState(() {
-        _userData = userData;
-         logindetails = FBUserModel.getUserProfileFB(_userData);
-         Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) {
-                                                                                                 return Home(1, logindetails);}));
-      });
-    }
-  }
-
-  void _printCredentials() {
-    print(
-      _accessToken.toJson(),
+  //GOOGLE DATA------------------------------------------------------------
+      GoogleSignIn _googleSignIn = GoogleSignIn(
+      scopes: <String>[
+        'email'
+      ],
     );
-  }
+
+   GoogleSignInAccount _googleuserData;
+   GoogleUserModel googlelogindetails;
+
+
+  @override
 
     void goToNews() async
     {
@@ -87,11 +69,11 @@ class _LoginState extends State<Login>{
         }
 
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) {
-                                                         return Home(1, logindetails);}));
+                                                         return Home(1, null,null);}));
 
     }
 
-  void _login() async {
+  void _fblogin() async {
 
      EzLoadingBloc bloc =
         EzBlocProvider.of<EzGlobalBloc>(context).get(EzLoadingBloc);
@@ -101,17 +83,13 @@ class _LoginState extends State<Login>{
 
          if (_accessToken == null) {
       _accessToken = await FacebookAuth.instance.login(); 
-      _printCredentials();
         bloc.addition.add("Loading 20%");
-      // get the user data
+
       final userData = await FacebookAuth.instance.getUserData(fields: fieldsToGet);
-      _userData = userData;
+      _fbuserData = userData;
        bloc.addition.add("Loading 30%");
          }
     } on FacebookAuthException catch (e) {
-      // if the facebook login fails
-      print(e.message); // print the error message in console
-      // check the error type
       switch (e.errorCode) {
         case FacebookAuthErrorCode.OPERATION_IN_PROGRESS:
           print("You have a previous login operation in progress");
@@ -128,30 +106,59 @@ class _LoginState extends State<Login>{
       }
 
       
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) {
-              return Login();}));    
+    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) 
+                     {return Home(1, fblogindetails, null);}),(Route<dynamic> route) => false);
       
     } catch (e, s) {
       print(e);
       print(s);
     } finally {
-      setState(() {
-        _checking = false;
-           print("Login successful");
+     
             bloc.addition.add("Loading 70%");
-            logindetails = FBUserModel.getUserProfileFB(_userData);
-             bloc.addition.add("Loading 90%");
+            fblogindetails = FBUserModel.getUserProfileFB(_fbuserData);
+        
+                   bloc.addition.add("Loading 90%");
+      
 
-            Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) {
-              return Home(1, logindetails);}));     
-           
-      });
+                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) 
+                     {return Home(1, fblogindetails, null);}),(Route<dynamic> route) => false);
+              
+        
+   
     }
   }
 
+  //GOOGLE SIGN IN----------------------------------------------------------------------------------------------------------------
 
 
-   
+  Future<void> _googlelogin() async {
+
+       EzLoadingBloc bloc =
+        EzBlocProvider.of<EzGlobalBloc>(context).get(EzLoadingBloc);
+
+    try {
+  
+        bloc.addition.add("Loading 20%");
+      await _googleSignIn.signIn();
+
+    _googleuserData = _googleSignIn.currentUser;
+      bloc.addition.add("Loading 50%");
+     googlelogindetails =  new GoogleUserModel(displayName: _googleuserData.displayName, email: _googleuserData.email, id: _googleuserData.id, photoUrl: _googleuserData.photoUrl);
+         bloc.addition.add("Loading 70%");
+       if(googlelogindetails != null)
+       {
+              bloc.addition.add("Loading 90%");
+
+                    
+          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) 
+                     {return Home(1, null, googlelogindetails);}),(Route<dynamic> route) => false);
+       }
+       bloc.addition.add("Loading 100%");
+    } catch (error) {
+      print(error);
+    }
+    
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold( 
@@ -167,17 +174,13 @@ class _LoginState extends State<Login>{
                                                 backgroundColor: Colors.blue[500],
                                                 onPressed: ()
                                                 {
-                                                 
-                                                      //  Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) {
-                                                      //   return Home(1, logindetails);}));
-
-                                                         Navigator.push(
-                                                                                                                context,
-                                                                                                                MaterialPageRoute(
-                                                                                                                    builder: (context) => EzTransition(LoadingScreen(),
-                                                                                                                        goToNews,
-                                                                                                                        backgroundColor: Colors.white)),
-                                                                                                              );
+                                                      Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) => EzTransition(LoadingScreen(),
+                                                                goToNews,
+                                                                backgroundColor: Colors.white)),
+                                                      );
 
                                                 
                                                 }     
@@ -214,14 +217,14 @@ class _LoginState extends State<Login>{
                                                                                           ],
                                                                                         ), onPressed: (){ 
                                                                                         
-                                                                                                    if(_userData == null)
+                                                                                                    if(_fbuserData == null)
                                                                                                     {
                                                                                                                                                                              
                                                                                                      Navigator.push(
                                                                                                                 context,
                                                                                                                 MaterialPageRoute(
                                                                                                                     builder: (context) => EzTransition(LoadingScreen(),
-                                                                                                                        _login,
+                                                                                                                        _fblogin,
                                                                                                                         backgroundColor: Colors.white)),
                                                                                                               );
                                                                                                     }
@@ -236,9 +239,18 @@ class _LoginState extends State<Login>{
                                                                                             
                                                                                           ],
                                                                                         ), onPressed: (){ 
-                                                                                              // Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) {
-                                                                                              //    return Register('Supplier');}));
-                                                                                            
+                                  
+                                                                                                if(_googleuserData == null)
+                                                                                                    {
+                                                                                                                                                                             
+                                                                                                     Navigator.push(
+                                                                                                                context,
+                                                                                                                MaterialPageRoute(
+                                                                                                                    builder: (context) => EzTransition(LoadingScreen(),
+                                                                                                                        _googlelogin,
+                                                                                                                        backgroundColor: Colors.white)),
+                                                                                                              );
+                                                                                                    }
                                                                                          
                                                                                         },)),
 
