@@ -12,6 +12,7 @@ import 'package:onecaintamobileapp/model/googleusermodel.dart';
 import 'package:onecaintamobileapp/utility/flutttertoast.dart';
 import 'package:onecaintamobileapp/utility/loadingscreen.dart';
 
+
 class App extends StatelessWidget{
   
   //FBDATA------------------------------------------------------------------
@@ -29,6 +30,8 @@ class App extends StatelessWidget{
 
    GoogleSignInAccount _googleuserData;
    GoogleUserModel googlelogindetails;
+
+
   
   Future<List<dynamic>> _checkIfIsLoggedFBandGoogle() async {
 
@@ -85,15 +88,21 @@ context) {
              theme: ThemeData(textTheme: GoogleFonts.latoTextTheme(Theme.of(context).textTheme) ),
               home:FutureBuilder<List<dynamic>>(
                                               future:   _checkIfIsLoggedFBandGoogle(),
-                                              builder: (context, snapshot) {
+                                              builder:  (context, snapshot)  {
+
+                                                  
                                                     if (snapshot.hasData) {
 
+                                                  
+
                                                       showToast("Signing with your credentials...");
+
+                                                        
 
                                                       for(var i =0; i < snapshot.data.length; i++)
                                                       {
                                                         
-                                                          if(snapshot.data[i] != null && snapshot.data[i] is FBUserModel) //FB CRED ``````````````````
+                                                          if(snapshot.data[i] != null && snapshot.data[i] is FBUserModel) //FB CRED 
                                                           {
                                                             return Home(1, fblogindetails,null);
                                                           } 
@@ -106,14 +115,14 @@ context) {
                                                     }
                                                     else  //NO LOGIN
                                                     {
-                                                       Future.delayed(const Duration(seconds: 5), () {
-                                                         return Login();
+                                                       return Login();
+                                                       
  
-                                                      }); 
+                                              
 
                                                     }
-
-                                                    return LoadingScreen();
+                                                     return LoadingScreen();
+                                                 
                                               }
               )
               
