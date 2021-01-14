@@ -82,50 +82,34 @@ class _LoginState extends State<Login>{
         bloc.addition.add("Loading 10%");
 
          if (_accessToken == null) {
-      _accessToken = await FacebookAuth.instance.login(); 
-        bloc.addition.add("Loading 20%");
+                  _accessToken = await FacebookAuth.instance.login(); 
+                    bloc.addition.add("Loading 20%");
 
-      final userData = await FacebookAuth.instance.getUserData(fields: fieldsToGet);
-      _fbuserData = userData;
-       bloc.addition.add("Loading 30%");
-         }
-    } on FacebookAuthException catch (e) {
-      switch (e.errorCode) {
-        case FacebookAuthErrorCode.OPERATION_IN_PROGRESS:
-          print("You have a previous login operation in progress");
-          showToast("Previous login operation in progress.");
-          break;
-        case FacebookAuthErrorCode.CANCELLED:
-          print("login cancelled");
-           showToast("Login cancelled.");
-          break;
-        case FacebookAuthErrorCode.FAILED:
-          print("login failed");
-          showToast("Login failed, please try again.");
-          break;
-      }
+                  final userData = await FacebookAuth.instance.getUserData(fields: fieldsToGet);
+                  _fbuserData = userData;
+                  bloc.addition.add("Loading 30%");
 
-      
-    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) 
-                     {return Home(1, fblogindetails, null);}),(Route<dynamic> route) => false);
-      
-    } catch (e, s) {
-      print(e);
-      print(s);
-    } finally {
-     
-            bloc.addition.add("Loading 70%");
-            fblogindetails = FBUserModel.getUserProfileFB(_fbuserData);
+                    bloc.addition.add("Loading 50%");
+                  fblogindetails = FBUserModel.getUserProfileFB(_fbuserData);
         
-                   bloc.addition.add("Loading 90%");
-      
+                 if (fblogindetails != null)
+                 {
+                     bloc.addition.add("Loading 90%");
 
                     Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) 
                      {return Home(1, fblogindetails, null);}),(Route<dynamic> route) => false);
               
-        
-   
-    }
+
+                 }
+        }
+    } catch (e) {
+
+         showToast("Login failed, please try again.");
+                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) 
+                                  {return Login();}),(Route<dynamic> route) => false);
+
+      
+    } 
   }
 
   //GOOGLE SIGN IN----------------------------------------------------------------------------------------------------------------
@@ -145,17 +129,22 @@ class _LoginState extends State<Login>{
       bloc.addition.add("Loading 50%");
      googlelogindetails =  new GoogleUserModel(displayName: _googleuserData.displayName, email: _googleuserData.email, id: _googleuserData.id, photoUrl: _googleuserData.photoUrl);
          bloc.addition.add("Loading 70%");
+
        if(googlelogindetails != null)
        {
-              bloc.addition.add("Loading 90%");
+              bloc.addition.add("Loading 100%");
 
                     
           Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) 
                      {return Home(1, null, googlelogindetails);}),(Route<dynamic> route) => false);
        }
-       bloc.addition.add("Loading 100%");
-    } catch (error) {
-      print(error);
+  
+
+    } catch (err)  {
+      print(err);
+       showToast("Login failed, please try again.");
+            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) 
+                                  {return Login();}),(Route<dynamic> route) => false);
     }
     
   }

@@ -10,6 +10,7 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:onecaintamobileapp/model/fbusermodel.dart';
 import 'package:onecaintamobileapp/model/googleusermodel.dart';
 import 'package:onecaintamobileapp/utility/flutttertoast.dart';
+import 'package:onecaintamobileapp/utility/loadingscreen.dart';
 
 class App extends StatelessWidget{
   
@@ -83,7 +84,7 @@ context) {
              debugShowCheckedModeBanner: false,
              theme: ThemeData(textTheme: GoogleFonts.latoTextTheme(Theme.of(context).textTheme) ),
               home:FutureBuilder<List<dynamic>>(
-                                              future: _checkIfIsLoggedFBandGoogle(),
+                                              future:   _checkIfIsLoggedFBandGoogle(),
                                               builder: (context, snapshot) {
                                                     if (snapshot.hasData) {
 
@@ -92,12 +93,11 @@ context) {
                                                       for(var i =0; i < snapshot.data.length; i++)
                                                       {
                                                         
-                                                          // if(snapshot.data[i] != null && snapshot.data[i] is FBUserModel) //FB CRED ``````````````````
-                                                          // {
-                                                          //   return Home(1, fblogindetails,null);
-                                                          // } else
-                                                          
-                                                           if (snapshot.data[i] != null && snapshot.data[i] is GoogleUserModel) { //GOOGLE CRED
+                                                          if(snapshot.data[i] != null && snapshot.data[i] is FBUserModel) //FB CRED ``````````````````
+                                                          {
+                                                            return Home(1, fblogindetails,null);
+                                                          } 
+                                                          else if (snapshot.data[i] != null && snapshot.data[i] is GoogleUserModel) { //GOOGLE CRED
                                                             return Home(1,null, googlelogindetails);
                                                           }
 
@@ -106,11 +106,14 @@ context) {
                                                     }
                                                     else  //NO LOGIN
                                                     {
-                                                        return Login();
+                                                       Future.delayed(const Duration(seconds: 5), () {
+                                                         return Login();
+ 
+                                                      }); 
 
                                                     }
 
-                                                    return Container(width: 0, height: 0,);
+                                                    return LoadingScreen();
                                               }
               )
               
