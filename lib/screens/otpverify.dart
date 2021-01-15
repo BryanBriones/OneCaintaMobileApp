@@ -66,18 +66,28 @@ Future<void> _otpLogin() async {
                 phoneNumber: userphonenumber,
                 timeout: const Duration(seconds: 60),
                 codeSent: (String verificationId, int resendToken) async {
-                  // Create a PhoneAuthCredential with the code
+             
                  _verificationId = verificationId;
-                  //PhoneAuthCredential phoneAuthCredential = PhoneAuthProvider.credential(verificationId: verificationId, smsCode: smsCode);
-                      showToast("OTP Code Sent.");
-                  // Sign the user in (or link) with the credential
-                 // await auth.signInWithCredential(phoneAuthCredential);
+                  
+                  showToast("OTP code sent to your phone.");
+        
 
                 },
                 verificationCompleted: (PhoneAuthCredential credential) async {
 
+                   String receivedOTP = credential.smsCode;
+
+                  setState(() {        
+                    textEditingController.text = receivedOTP;
+                  });
+
                   await auth.signInWithCredential(credential);
-                     showToast("OTP Verified. Proceed on next page.");
+
+                     showToast("Verification completed.");
+
+                 Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) 
+                  {return OTPForm(userphonenumber);}),(Route<dynamic> route) => false);
+
                   
                 },
                 verificationFailed: (FirebaseAuthException e) {
@@ -91,17 +101,14 @@ Future<void> _otpLogin() async {
                       }
                   else {
 
-                       showToast('OTP Verification Failed. Please try again');
+                       showToast('Failed to verify mobile number. Please try again');
                        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) 
                                         {return Login();}),(Route<dynamic> route) => false);
                   }
                    
                 },
                 codeAutoRetrievalTimeout: (String verificationId) {
-                  //  showToast("OTP Verification Timeout. Please retry");
-                    // Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) 
-                    //                     {return Login();}),(Route<dynamic> route) => false);
-
+                    showToast("Verification expired. Please RESEND");
                 },
               );
         } catch (err)  {
@@ -257,26 +264,8 @@ Future<void> _otpLogin() async {
                               
                               PhoneAuthCredential phoneAuthCredential = PhoneAuthProvider.credential(verificationId: _verificationId, smsCode: otpCode);
                               await auth.signInWithCredential(phoneAuthCredential);
-                        
 
-
-                              } on FirebaseAuthException catch(e){
-
-                                          print(e);
-                                
-                                              if (e.code == 'session-expired') {
-                                                    showToast('These code expired. Click resend for a new one.');
-
-                                                  }
-                                              else {
-
-                                                  showToast('OTP Verification Failed. Please try again');
-                                                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) 
-                                                                    {return Login();}),(Route<dynamic> route) => false);
-                                              }
-                              }
-                        
-                            setState(()  {
+                               setState(()  {
                               hasError = false;
                               scaffoldKey.currentState.showSnackBar(SnackBar(
                                 content: Text("Your mobile phone is verified."),
@@ -287,6 +276,21 @@ Future<void> _otpLogin() async {
                                                                     {return OTPForm(userphonenumber);}),(Route<dynamic> route) => false);
 
                             });
+                            } on FirebaseAuthException catch(e){
+
+                              print(e);
+                    
+                                  if (e.code == 'session-expired') {
+                                        showToast('These code expired. Click resend for a new one.');
+
+                                      }
+                                  else {
+
+                                      showToast('Verification failed. Please try again!');
+                                      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) 
+                                                        {return Login();}),(Route<dynamic> route) => false);
+                                  }
+                            } 
                       }
                     },
                     child: Center(

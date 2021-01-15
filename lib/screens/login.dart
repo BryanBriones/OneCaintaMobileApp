@@ -8,6 +8,7 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:expandable/expandable.dart';
 import 'package:ez_flutter/ez_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:keyboard_visibility/keyboard_visibility.dart';
 
 
 
@@ -56,6 +57,30 @@ class _LoginState extends State<Login>{
   String initialCountry = 'PH';
   PhoneNumber number = PhoneNumber(isoCode: 'PH');
   String userphonenumber;
+
+//OTP UI Elements
+  bool isKeyboardShown = false;
+
+  void initState(){
+      super.initState();
+
+  KeyboardVisibilityNotification().addNewListener(
+    
+    onShow: () {
+      setState(() {
+            isKeyboardShown = true;
+      });
+  
+      
+    },
+    onHide: () {
+       setState(() {
+      isKeyboardShown = false;
+       });
+    }
+  );
+
+  }
 
     void goToNews() async
     {
@@ -144,7 +169,8 @@ class _LoginState extends State<Login>{
   @override
   Widget build(BuildContext context) {
     return Scaffold( 
-          resizeToAvoidBottomInset: false,   
+          resizeToAvoidBottomInset: false,  
+          resizeToAvoidBottomPadding: false, 
           floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterDocked,
           floatingActionButton: Container(
                             height:80.0,
@@ -168,7 +194,9 @@ class _LoginState extends State<Login>{
                                                 }     
                                             
                           ))),
-                body:Container( height: MediaQuery.of(context).size.height,
+                body:SingleChildScrollView(
+                        reverse: true, 
+                            child:Container( height: MediaQuery.of(context).size.height,
                                 decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: BorderRadius.all(Radius.circular(4.0))),
@@ -239,9 +267,9 @@ class _LoginState extends State<Login>{
                                                                         ]),
                                                                        ),
                                                             Expanded(
-                                                                   flex: 4,
+                                                                   flex: isKeyboardShown ? 10 : 4,
                                                                    child:
-                                                                   Column(
+                                                                  Column(
                                                                           
                                                                      children: <Widget>[
                                                                        
@@ -274,16 +302,17 @@ class _LoginState extends State<Login>{
                                                                                       ),
                                                                               expanded: Column(  
                                                                                 children: [
-                                                                                   Padding(padding: EdgeInsets.fromLTRB(20,0,20,20), child: InternationalPhoneNumberInput(
+                                                                                   Padding(padding: EdgeInsets.fromLTRB(20,0,20,20), child:InternationalPhoneNumberInput(
                                                                                       onInputChanged: (PhoneNumber number) {
                                                                                         print(number.phoneNumber);
                                                                                         userphonenumber = number.phoneNumber;
                                                                                       },
+                                                                                      
                                                                                       onInputValidated: (bool value) {
                                                                                         print(value);
                                                                                       },
                                                                                       selectorConfig: SelectorConfig(
-                                                                                        selectorType: PhoneInputSelectorType.DIALOG,
+                                                                                        selectorType: PhoneInputSelectorType.BOTTOM_SHEET
                                                                                       ),
                                                                                        ignoreBlank: false,
                                                                                       selectorTextStyle: TextStyle(color: Colors.black),
@@ -294,7 +323,8 @@ class _LoginState extends State<Login>{
                                                                                        keyboardType: TextInputType.numberWithOptions(signed: true, decimal: true),
                                                                                       inputBorder: OutlineInputBorder(),
                                                                                      
-                                                                                    ),),
+                                                                                    ) 
+                                                                                    ),
                                                                            SizedBox(width: 225, height:40,  child:FlatButton(color: Colors.blue[500], 
                                                                                   child: Row( mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
                                                                                               Icon(Icons.phone, color: Colors.white),    
@@ -340,7 +370,9 @@ class _LoginState extends State<Login>{
                                                                 ])
                                                             )
                                                             ])
+                                                            
 ),
+)
 );
                                           
 
