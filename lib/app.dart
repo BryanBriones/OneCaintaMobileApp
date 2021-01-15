@@ -1,14 +1,19 @@
-import 'dart:ffi';
 
+//FLUTTER
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:onecaintamobileapp/screens/home.dart';
-import 'package:onecaintamobileapp/screens/login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
+//SCREENS
+import 'package:onecaintamobileapp/screens/home.dart';
+import 'package:onecaintamobileapp/screens/login.dart';
+
+//MODELS
 import 'package:onecaintamobileapp/model/fbusermodel.dart';
 import 'package:onecaintamobileapp/model/googleusermodel.dart';
+
+//UTILITIES
 import 'package:onecaintamobileapp/utility/flutttertoast.dart';
 import 'package:onecaintamobileapp/utility/loadingscreen.dart';
 
@@ -35,7 +40,6 @@ class App extends StatelessWidget{
   
   Future<List<dynamic>> _checkIfIsLoggedFBandGoogle() async {
 
-    
 
     List<dynamic> fbgooglecred = [];
    final AccessToken accesstoken = await FacebookAuth.instance.isLogged;
@@ -104,10 +108,10 @@ context) {
                                                         
                                                           if(snapshot.data[i] != null && snapshot.data[i] is FBUserModel) //FB CRED 
                                                           {
-                                                            return Home(1, fblogindetails,null);
+                                                            return Home(1, fblogindetails,null, null);
                                                           } 
                                                           else if (snapshot.data[i] != null && snapshot.data[i] is GoogleUserModel) { //GOOGLE CRED
-                                                            return Home(1,null, googlelogindetails);
+                                                            return Home(1,null, googlelogindetails, null);
                                                           }
 
                                                       }

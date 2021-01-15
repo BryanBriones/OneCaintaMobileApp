@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 //Models
 import 'package:onecaintamobileapp/model/fbusermodel.dart';
 import 'package:onecaintamobileapp/model/googleusermodel.dart';
+import 'package:onecaintamobileapp/model/otpusermodel.dart';
 
 //Components
 import 'package:onecaintamobileapp/components/home/appbar.dart';
@@ -23,10 +24,11 @@ class Home extends StatefulWidget {
   int index =0;
   final FBUserModel fblogindetails;
   final GoogleUserModel googlelogindetails;
-  Home(this.index, this.fblogindetails, this.googlelogindetails);
+  final OTPUserModel otplogindetails;
+  Home(this.index, this.fblogindetails, this.googlelogindetails, this.otplogindetails);
  @override
  State<StatefulWidget> createState() {
-    return _HomeState(this.index, this.fblogindetails, this.googlelogindetails);
+    return _HomeState(this.index, this.fblogindetails, this.googlelogindetails, this.otplogindetails);
   }
 }
 
@@ -34,7 +36,8 @@ class _HomeState extends State<Home> {
   int _currentIndex = 0;
    final FBUserModel fblogindetails;
   final GoogleUserModel googlelogindetails;
-  _HomeState(this._currentIndex, this.fblogindetails,this.googlelogindetails);
+    final OTPUserModel otplogindetails;
+  _HomeState(this._currentIndex, this.fblogindetails,this.googlelogindetails, this.otplogindetails);
   
    List<Widget> _children =[];
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -58,7 +61,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return DefaultTabController( length: 5, initialIndex: _currentIndex,
       child:Scaffold( 
-                    appBar:  AppBarWidget(90, "avatar", "One Cainta", "mainTabView","menu",null,fblogindetails,googlelogindetails),
+                    appBar:  AppBarWidget(90, "avatar", "One Cainta", "mainTabView","menu",null,fblogindetails,googlelogindetails,otplogindetails),
                     body:TabBarView(
                        children:
                                             [

@@ -8,15 +8,17 @@ import 'package:google_sign_in/google_sign_in.dart';
 //Models
 import 'package:onecaintamobileapp/model/fbusermodel.dart';
 import 'package:onecaintamobileapp/model/googleusermodel.dart';
+import 'package:onecaintamobileapp/model/otpusermodel.dart';
 
 class UserProfile extends StatefulWidget {
   final FBUserModel fblogindetails;
   final GoogleUserModel googlelogindetails;
+  final OTPUserModel otplogindetails;
 
-  UserProfile(this.fblogindetails, this.googlelogindetails);
+  UserProfile(this.fblogindetails, this.googlelogindetails, this.otplogindetails);
  @override
  State<StatefulWidget> createState() {
-    return _UserProfileState(this.fblogindetails, this.googlelogindetails);
+    return _UserProfileState(this.fblogindetails, this.googlelogindetails, this.otplogindetails);
   }
 }
 
@@ -24,6 +26,7 @@ class _UserProfileState extends State<UserProfile> with TickerProviderStateMixin
 
   final FBUserModel fblogindetails;
   final GoogleUserModel googlelogindetails;
+  final OTPUserModel otplogindetails;
 
   GoogleSignIn _googleSignIn = GoogleSignIn(
       scopes: <String>[
@@ -32,7 +35,7 @@ class _UserProfileState extends State<UserProfile> with TickerProviderStateMixin
     );
 
 
-_UserProfileState(this.fblogindetails, this.googlelogindetails);
+_UserProfileState(this.fblogindetails, this.googlelogindetails, this.otplogindetails);
 bool IsRefresh = false;
 bool isLoading = false;
 
@@ -111,12 +114,15 @@ Future<void> _normallogOut() async {
                                                 ListTile(
                                                       title:  fblogindetails != null ?  Padding(padding:EdgeInsets.fromLTRB(2,10,5,5), child: fblogindetails == null ?  Text("Hello, User", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22, color: Colors.blue[900])) :  Text("Hello, " +  fblogindetails.firstName, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22, color: Colors.blue[900])))
                                                               : googlelogindetails != null ? Padding(padding:EdgeInsets.fromLTRB(2,10,5,5), child: googlelogindetails == null ?  Text("Hello, User", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22, color: Colors.blue[900])) :  Text("Hello, " +  googlelogindetails.displayName, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22, color: Colors.blue[900])))
+                                                              : otplogindetails != null ? Padding(padding:EdgeInsets.fromLTRB(2,10,5,5), child: otplogindetails == null ?  Text("Hello, User", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22, color: Colors.blue[900])) :  Text("Hello, " +  otplogindetails.fullname, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22, color: Colors.blue[900])))
                                                               : Padding(padding:EdgeInsets.fromLTRB(2,10,5,5), child: Text("Hello, User", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22, color: Colors.blue[900]))),
                                                       subtitle:  fblogindetails != null ? Padding(padding:EdgeInsets.all(5), child: fblogindetails == null ?  Text("Please sign in to unlock other One Cainta features", style: TextStyle(color: Colors.black.withOpacity(0.6))) : Text(fblogindetails.email,style: TextStyle(color: Colors.black.withOpacity(0.6)))) //Email Address
                                                               :  googlelogindetails != null ? Padding(padding:EdgeInsets.all(5), child: googlelogindetails == null ?  Text("Please sign in to unlock other One Cainta features", style: TextStyle(color: Colors.black.withOpacity(0.6))) : Text(googlelogindetails.email,style: TextStyle(color: Colors.black.withOpacity(0.6)))) 
+                                                              :  otplogindetails != null ? Padding(padding:EdgeInsets.all(5), child: otplogindetails == null ?  Text("Please sign in to unlock other One Cainta features", style: TextStyle(color: Colors.black.withOpacity(0.6))) : Text(otplogindetails.email,style: TextStyle(color: Colors.black.withOpacity(0.6)))) 
                                                               :  Padding(padding:EdgeInsets.all(5), child: Text("Please sign in to unlock other One Cainta features", style: TextStyle(color: Colors.black.withOpacity(0.6)))),         
                                                       trailing: fblogindetails != null ? CircleAvatar(radius: 30.0,backgroundImage: fblogindetails == null ? AssetImage('assets/emptyavatar.png') : NetworkImage(fblogindetails.picture.data.url),backgroundColor: Colors.transparent)
                                                               : googlelogindetails != null ? CircleAvatar(radius: 30.0,backgroundImage: googlelogindetails == null ? AssetImage('assets/emptyavatar.png') : NetworkImage(googlelogindetails.photoUrl),backgroundColor: Colors.transparent)
+                                                              : otplogindetails != null ?  CircleAvatar(radius: 30.0,backgroundImage: AssetImage('assets/emptyavatar.png') ,backgroundColor: Colors.transparent)
                                                               : CircleAvatar(radius: 30.0,backgroundImage: AssetImage('assets/emptyavatar.png'),backgroundColor: Colors.transparent)
                                                       ),
                                             Padding(padding: EdgeInsets.only(top:10), child: Divider( color: Colors.grey.withOpacity(0.6))),
@@ -170,7 +176,7 @@ Future<void> _normallogOut() async {
                                                       highlightColor: Colors.blue[100],
                                                       child: GestureDetector(child:ListTile(
                                                       leading: Icon(Icons.logout,color: Colors.black.withOpacity(0.6), ),
-                                                      title:  fblogindetails == null  &&  googlelogindetails == null ?  Padding(padding:EdgeInsets.fromLTRB(2,10,5,5), child:Text("Back to Sign In", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: Colors.black))) : Padding(padding:EdgeInsets.fromLTRB(2,10,5,5), child:Text("Logout", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: Colors.black))),
+                                                      title:  fblogindetails == null  &&  googlelogindetails == null &&  otplogindetails == null  ?  Padding(padding:EdgeInsets.fromLTRB(2,10,5,5), child:Text("Back to Sign In", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: Colors.black))) : Padding(padding:EdgeInsets.fromLTRB(2,10,5,5), child:Text("Logout", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: Colors.black))),
                                                       onTap: (){
 
                                                           if(fblogindetails != null)

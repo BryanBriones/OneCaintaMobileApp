@@ -1,8 +1,5 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 
 //Flutter Material 
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_brand_icons/flutter_brand_icons.dart';
@@ -12,7 +9,9 @@ import 'package:expandable/expandable.dart';
 import 'package:ez_flutter/ez_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-//Model/s
+
+
+//Models
 import 'package:onecaintamobileapp/model/fbusermodel.dart';
 import 'package:onecaintamobileapp/model/googleusermodel.dart';
 
@@ -21,6 +20,7 @@ import 'package:onecaintamobileapp/utility/flutttertoast.dart';
 import 'package:onecaintamobileapp/utility/loadingscreen.dart';
 //Screens
 import 'package:onecaintamobileapp/screens/home.dart';
+import 'package:onecaintamobileapp/screens/otpVerify.dart';
 
 
 
@@ -34,17 +34,14 @@ _LoginState createState() => _LoginState();
 }
 
 class _LoginState extends State<Login>{
-  final TextEditingController controller = TextEditingController();
-  String initialCountry = 'PH';
-  PhoneNumber number = PhoneNumber(isoCode: 'PH');
 
-  //FBDATA------------------------------------------------------------------
+//FBDATA--------------------------------------------------------------------------------------------------------
   Map<String, dynamic> _fbuserData;
   AccessToken _accessToken;
   FBUserModel fblogindetails;
   String fieldsToGet = "first_name,last_name,email,picture.width(200)";
 
-  //GOOGLE DATA------------------------------------------------------------
+//GOOGLE DATA---------------------------------------------------------------------------------------------------
       GoogleSignIn _googleSignIn = GoogleSignIn(
       scopes: <String>[
         'email'
@@ -54,8 +51,11 @@ class _LoginState extends State<Login>{
    GoogleSignInAccount _googleuserData;
    GoogleUserModel googlelogindetails;
 
-
-  @override
+//OTP DATA -----------------------------------------------------------------------------------------------------
+  final TextEditingController controller = TextEditingController();
+  String initialCountry = 'PH';
+  PhoneNumber number = PhoneNumber(isoCode: 'PH');
+  String userphonenumber;
 
     void goToNews() async
     {
@@ -69,7 +69,7 @@ class _LoginState extends State<Login>{
         }
 
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) {
-                                                         return Home(1, null,null);}));
+                                                         return Home(1, null,null,null);}));
 
     }
 
@@ -77,11 +77,11 @@ class _LoginState extends State<Login>{
 
      EzLoadingBloc bloc =
         EzBlocProvider.of<EzGlobalBloc>(context).get(EzLoadingBloc);
-    try {
-       
-        bloc.addition.add("Loading 10%");
 
-         if (_accessToken == null) {
+        try {
+       
+                  bloc.addition.add("Loading 10%");
+
                   _accessToken = await FacebookAuth.instance.login(); 
                     bloc.addition.add("Loading 20%");
 
@@ -94,60 +94,53 @@ class _LoginState extends State<Login>{
         
                  if (fblogindetails != null)
                  {
-                     bloc.addition.add("Loading 90%");
-
-                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) 
-                     {return Home(1, fblogindetails, null);}),(Route<dynamic> route) => false);
-              
-
+                    bloc.addition.add("Loading 90%");
+                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) 
+                     {return Home(1, fblogindetails, null, null);}),(Route<dynamic> route) => false);
                  }
-        }
-    } catch (e) {
+        } catch (e) {
 
          showToast("Login failed, please try again.");
                   Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) 
                                   {return Login();}),(Route<dynamic> route) => false);
-
-      
-    } 
+        } 
   }
 
-  //GOOGLE SIGN IN----------------------------------------------------------------------------------------------------------------
-
-
+//GOOGLE SIGN IN----------------------------------------------------------------------------------------------------------------
   Future<void> _googlelogin() async {
 
        EzLoadingBloc bloc =
         EzBlocProvider.of<EzGlobalBloc>(context).get(EzLoadingBloc);
 
-    try {
-  
-        bloc.addition.add("Loading 20%");
-      await _googleSignIn.signIn();
+          try {
+        
+              bloc.addition.add("Loading 20%");
+            await _googleSignIn.signIn();
 
-    _googleuserData = _googleSignIn.currentUser;
-      bloc.addition.add("Loading 50%");
-     googlelogindetails =  new GoogleUserModel(displayName: _googleuserData.displayName, email: _googleuserData.email, id: _googleuserData.id, photoUrl: _googleuserData.photoUrl);
-         bloc.addition.add("Loading 70%");
+          _googleuserData = _googleSignIn.currentUser;
+            bloc.addition.add("Loading 50%");
+          googlelogindetails =  new GoogleUserModel(displayName: _googleuserData.displayName, email: _googleuserData.email, id: _googleuserData.id, photoUrl: _googleuserData.photoUrl);
+              bloc.addition.add("Loading 70%");
 
-       if(googlelogindetails != null)
-       {
-              bloc.addition.add("Loading 100%");
+            if(googlelogindetails != null)
+            {
+                    bloc.addition.add("Loading 100%");
 
-                    
-          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) 
-                     {return Home(1, null, googlelogindetails);}),(Route<dynamic> route) => false);
-       }
-  
+                          
+                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) 
+                          {return Home(1, null, googlelogindetails, null);}),(Route<dynamic> route) => false);
+            }
+        
 
-    } catch (err)  {
-      print(err);
-       showToast("Login failed, please try again.");
-            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) 
-                                  {return Login();}),(Route<dynamic> route) => false);
-    }
-    
+          } catch (err)  {
+            print(err);
+            showToast("Login failed, please try again.");
+                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) 
+                                        {return Login();}),(Route<dynamic> route) => false);
+          }
   }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold( 
@@ -284,15 +277,15 @@ class _LoginState extends State<Login>{
                                                                                    Padding(padding: EdgeInsets.fromLTRB(20,0,20,20), child: InternationalPhoneNumberInput(
                                                                                       onInputChanged: (PhoneNumber number) {
                                                                                         print(number.phoneNumber);
+                                                                                        userphonenumber = number.phoneNumber;
                                                                                       },
                                                                                       onInputValidated: (bool value) {
                                                                                         print(value);
                                                                                       },
                                                                                       selectorConfig: SelectorConfig(
-                                                                                        selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
+                                                                                        selectorType: PhoneInputSelectorType.DIALOG,
                                                                                       ),
                                                                                        ignoreBlank: false,
-                                                                                      autoValidateMode: AutovalidateMode.disabled,
                                                                                       selectorTextStyle: TextStyle(color: Colors.black),
                                                                                       initialValue: number,
                                                                                        textFieldController: controller,
@@ -300,9 +293,7 @@ class _LoginState extends State<Login>{
                                                                                        maxLength: 10,
                                                                                        keyboardType: TextInputType.numberWithOptions(signed: true, decimal: true),
                                                                                       inputBorder: OutlineInputBorder(),
-                                                                                      onSaved: (PhoneNumber number) {
-                                                                                        print('On Saved: $number');
-                                                                                      },
+                                                                                     
                                                                                     ),),
                                                                            SizedBox(width: 225, height:40,  child:FlatButton(color: Colors.blue[500], 
                                                                                   child: Row( mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
@@ -312,9 +303,10 @@ class _LoginState extends State<Login>{
                                                                                             
                                                                                           ],
                                                                                         ), onPressed: (){ 
-                                                                                              // Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) {
-                                                                                              //    return Register('Supplier');}));
-                                                                                         
+
+                                                                                             Navigator.push(context, MaterialPageRoute(builder: (_) 
+                                                                                                {return OTPVerify(userphonenumber);}));
+                           
                                                                                         },)),
                                                                                   ExpandableButton(       // <-- Collapses when tapped on
                                                                                     child: Padding(padding: EdgeInsets.only(top:20), child:Text(" << Back", style: TextStyle(color: Colors.black.withOpacity(.60), fontWeight: FontWeight.bold),)),

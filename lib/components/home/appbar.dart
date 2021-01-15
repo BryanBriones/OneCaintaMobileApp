@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:onecaintamobileapp/model/otpusermodel.dart';
 
 //Models
 import 'package:onecaintamobileapp/model/fbusermodel.dart';
 import 'package:onecaintamobileapp/model/googleusermodel.dart';
+import 'package:onecaintamobileapp/model/otpusermodel.dart';
 
 //Screens
 import 'package:onecaintamobileapp/screens/profile.dart';
@@ -18,8 +20,9 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
   final String leadingAction;
   final FBUserModel fblogindetails;
   final GoogleUserModel googlelogindetails;
+  final OTPUserModel otplogindetails;
     void openDrawer;
-  AppBarWidget(this.appbarSize, this.actionMenu, this.title, this.tabMenu, this.leadingAction, this.openDrawer, this.fblogindetails, this.googlelogindetails);
+  AppBarWidget(this.appbarSize, this.actionMenu, this.title, this.tabMenu, this.leadingAction, this.openDrawer, this.fblogindetails, this.googlelogindetails, this.otplogindetails);
 @override
   Widget build(BuildContext context) { 
       return AppBar(
@@ -28,7 +31,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
                                       centerTitle: false,
                                       title: Padding( padding: EdgeInsets.only(top:10), child:Text(title, style: TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.bold),)),
                                       backgroundColor: Colors.blue[900],
-                                      actions: GetAppBarFunctions(context,actionMenu,fblogindetails, googlelogindetails),
+                                      actions: GetAppBarFunctions(context,actionMenu,fblogindetails, googlelogindetails,otplogindetails),
                                       bottom: GetAppBarTabView(tabMenu),
                                     
                                     );
@@ -40,7 +43,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
 
 
 
-List<Widget> GetAppBarFunctions(BuildContext context, String action, FBUserModel fblogindetails,GoogleUserModel googlelogindetails)
+List<Widget> GetAppBarFunctions(BuildContext context, String action, FBUserModel fblogindetails,GoogleUserModel googlelogindetails, OTPUserModel otplogindetails)
 {
   List<Widget> sideBarActions = [];    
 
@@ -52,7 +55,7 @@ List<Widget> GetAppBarFunctions(BuildContext context, String action, FBUserModel
                                         ),
                                           onTap: (){
                                                 Navigator.push(context, MaterialPageRoute(builder: (_) {
-                                                          return UserProfile(fblogindetails, null);
+                                                          return UserProfile(fblogindetails, null, null);
                                             }));}
                                       ) : 
                                     googlelogindetails != null ? //IF GOOGLE LOGIN
@@ -61,15 +64,25 @@ List<Widget> GetAppBarFunctions(BuildContext context, String action, FBUserModel
                                         ),
                                           onTap: (){
                                                 Navigator.push(context, MaterialPageRoute(builder: (_) {
-                                                          return UserProfile(null, googlelogindetails);
+                                                          return UserProfile(null, googlelogindetails, null);
                                             }));}
                                       ) : 
+                                      otplogindetails != null ? //IF OTP LOGIN
+                                    GestureDetector( child:
+                                          Padding( padding: EdgeInsets.fromLTRB(0,5,5,0), child:CircleAvatar(radius:25, backgroundImage: AssetImage('assets/emptyavatar.png'), backgroundColor: Colors.transparent,),
+                                        ),
+                                          onTap: (){
+                                                Navigator.push(context, MaterialPageRoute(builder: (_) {
+                                                          return UserProfile(null, null, otplogindetails);
+                                            }));}
+                                      ) : 
+
                                         GestureDetector( child: //IF OTP OR NO LOGIN
                                           Padding( padding: EdgeInsets.fromLTRB(0,5,5,0), child:CircleAvatar(radius:25, backgroundImage: AssetImage('assets/emptyavatar.png'), backgroundColor: Colors.transparent,),
                                         ),
                                           onTap: (){
                                                 Navigator.push(context, MaterialPageRoute(builder: (_) {
-                                                          return UserProfile(null, null);
+                                                          return UserProfile(null, null, null);
                                             }));}
                                       );
 

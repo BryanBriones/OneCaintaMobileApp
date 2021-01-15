@@ -62,6 +62,8 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+        <meta-data android:name="OneCaintaAndroidCheckKey"
+            android:value="AIzaSyAk3WYX2RLLfR8dPmeVrPdNQGN6jBl_m-8"/>
     </application>
     <uses-permission android:name="android.permission.INTERNET"/>
 </manifest>
