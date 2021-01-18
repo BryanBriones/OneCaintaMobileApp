@@ -40,7 +40,7 @@ dependencies:
   google_sign_in: ^4.5.9
   pin_code_fields: ^6.0.2
   email_validator: '^1.0.0'
-  keyboard_visibility: ^0.5.6
+  flutter_keyboard_visibility: ^4.0.0
 
 
   # The following adds the Cupertino Icons font to your application.

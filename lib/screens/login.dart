@@ -8,7 +8,7 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:expandable/expandable.dart';
 import 'package:ez_flutter/ez_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:keyboard_visibility/keyboard_visibility.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 
 
 
@@ -63,22 +63,41 @@ class _LoginState extends State<Login>{
 
   void initState(){
       super.initState();
-
-  KeyboardVisibilityNotification().addNewListener(
+  var keyboardVisibilityController = KeyboardVisibilityController();
+      keyboardVisibilityController.onChange.listen((bool visible) {
     
-    onShow: () {
-      setState(() {
+        if(visible){
+          setState(() {
             isKeyboardShown = true;
-      });
+            });
+
+        }
+        else
+        {
+
+              setState(() {
+            isKeyboardShown = false;
+            });
+
+
+        }
+  });
+
+  // KeyboardVisibilityNotification().addNewListener(
+    
+  //   onShow: () {
+  //     setState(() {
+  //           isKeyboardShown = true;
+  //     });
   
       
-    },
-    onHide: () {
-       setState(() {
-      isKeyboardShown = false;
-       });
-    }
-  );
+  //   },
+  //   onHide: () {
+  //      setState(() {
+  //     isKeyboardShown = false;
+  //      });
+  //   }
+  // );
 
   }
 
