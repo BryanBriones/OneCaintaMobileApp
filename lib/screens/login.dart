@@ -83,22 +83,6 @@ class _LoginState extends State<Login>{
         }
   });
 
-  // KeyboardVisibilityNotification().addNewListener(
-    
-  //   onShow: () {
-  //     setState(() {
-  //           isKeyboardShown = true;
-  //     });
-  
-      
-  //   },
-  //   onHide: () {
-  //      setState(() {
-  //     isKeyboardShown = false;
-  //      });
-  //   }
-  // );
-
   }
 
     void goToNews() async

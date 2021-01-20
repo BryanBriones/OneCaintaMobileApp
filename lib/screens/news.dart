@@ -26,6 +26,7 @@ List<String> imgList = [
   'https://scontent.fmnl9-1.fna.fbcdn.net/v/t1.0-9/136459939_10221411577337594_4929433602683692607_o.jpg?_nc_cat=104&ccb=2&_nc_sid=730e14&_nc_eui2=AeEwX2ZOrKlyU5cPYSRIadTkVuYdyzfYhOVW5h3LN9iE5ahyVnSTkGv9iBje-eST8FasOud7LaVaRwBWRAFX7gIn&_nc_ohc=qoPRDcre-dYAX9dxn2p&_nc_ht=scontent.fmnl9-1.fna&oh=58c925e1e0ad9453a7fd855ff2ecfcbf&oe=602341DB',
   'https://scontent.fmnl9-1.fna.fbcdn.net/v/t1.0-9/137080859_10221431931806443_3021646390290378782_o.jpg?_nc_cat=104&ccb=2&_nc_sid=730e14&_nc_eui2=AeHwOwb16eWsZ5rIT4r14vbp8YhPMMtXW4zxiE8wy1dbjGzLw40I9QKngt0xnzD_3Auo4FXPhvw4qEvBpE3OQ1tq&_nc_ohc=RpGZssMneYkAX-JW-MY&_nc_ht=scontent.fmnl9-1.fna&oh=9e5e3698e6501f012522655805baa7e4&oe=60219A10',
   'https://scontent.fmnl9-1.fna.fbcdn.net/v/t1.0-9/136749181_10160899986584698_2639761650014353933_n.jpg?_nc_cat=100&ccb=2&_nc_sid=8bfeb9&_nc_eui2=AeGov29tWqkFR4SSpgep77-_t54ixhR3eIS3niLGFHd4hP4lY8nDB7a6epdWRRGAI7ReM9yjET2l-iKC3GeEqkYt&_nc_ohc=oVLfLKaionAAX91n0Lb&_nc_ht=scontent.fmnl9-1.fna&oh=213c5932616921bb599a4de7da2fccdd&oe=60235774',
+  'https://scontent.fmnl9-1.fna.fbcdn.net/v/t1.0-9/135891415_10221412708005860_398892527760001295_n.jpg?_nc_cat=108&ccb=2&_nc_sid=8bfeb9&_nc_eui2=AeEBRpjG4nCpLuELT3GqP66tMcej_K6D9Ucxx6P8roP1R2lgEsu_FJmDtlp4NA-lVHdtlDob9d7D0wmE2ZStgad-&_nc_ohc=SMtv4CsLLx8AX-Pcjar&_nc_ht=scontent.fmnl9-1.fna&oh=3a797e7019c2ef4f689403c2c7c578f0&oe=6023119E',
   'https://scontent.fmnl9-1.fna.fbcdn.net/v/t1.0-9/135891415_10221412708005860_398892527760001295_n.jpg?_nc_cat=108&ccb=2&_nc_sid=8bfeb9&_nc_eui2=AeEBRpjG4nCpLuELT3GqP66tMcej_K6D9Ucxx6P8roP1R2lgEsu_FJmDtlp4NA-lVHdtlDob9d7D0wmE2ZStgad-&_nc_ohc=SMtv4CsLLx8AX-Pcjar&_nc_ht=scontent.fmnl9-1.fna&oh=3a797e7019c2ef4f689403c2c7c578f0&oe=6023119E'
 ]; 
  List<String> headlines = [
@@ -34,18 +35,17 @@ List<String> imgList = [
   'Bagong streelights, naipakabit sa Brgy. Sta Rosa..',
   'Tricot creek cleanup, isinagawa..',
   'Cainta Business One Stop Shop, ipinatupad..',
+  'Mayor Nieto nagbigay ng ayuda para sa Cainta..',
   'Mayor Nieto nagbigay ng ayuda para sa Cainta..'
 ]; 
-String formatDate(DateTime date) => new DateFormat("MMMM d").format(date);
-
-String dateSlug ="${DateTime.now().month.toString().padLeft(2,'0')}-${DateTime.now().day.toString().padLeft(2,'0')}-${DateTime.now().year.toString()}";
+String formatDate(DateTime date) => new DateFormat("MMMM dd, yyyy").format(date);
  List<String> newsdates;
  _NewsState();
 @override
   void initState() {
     super.initState();
 
- newsdates = [dateSlug,dateSlug,dateSlug,dateSlug,dateSlug,dateSlug]; 
+ newsdates = [formatDate(DateTime.now()),formatDate(DateTime.now()),formatDate(DateTime.now()),formatDate(DateTime.now()),formatDate(DateTime.now()),formatDate(DateTime.now()),formatDate(DateTime.now())]; 
  imageSliders = imgList.map((item) { 
         return GestureDetector( child: Container(
           child: Container(
@@ -172,7 +172,7 @@ String dateSlug ="${DateTime.now().month.toString().padLeft(2,'0')}-${DateTime.n
                  color:  Colors.transparent,
                    child: ListView.builder(
                                       physics: NeverScrollableScrollPhysics(),
-                                      itemCount: 6,
+                                      itemCount: 7,
                                       shrinkWrap: true,
                                       itemBuilder: (BuildContext context, int index){
                                         return GestureDetector( child: 
