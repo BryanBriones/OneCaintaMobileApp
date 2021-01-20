@@ -6,6 +6,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:onecaintamobileapp/screens/home.dart';
 
 //Screens
+import 'package:onecaintamobileapp/screens/oneorganization.dart';
 import 'package:onecaintamobileapp/screens/onedonation.dart';
 import 'package:onecaintamobileapp/screens/wastemanagementform.dart';
 import 'package:onecaintamobileapp/screens/policies.dart';
@@ -14,6 +15,7 @@ import 'package:onecaintamobileapp/screens/calendar.dart';
 import 'package:onecaintamobileapp/screens/jobopening.dart';
 import 'package:onecaintamobileapp/screens/onlinereservations.dart';
 import 'package:onecaintamobileapp/utility/loadingscreen.dart';
+import 'package:onecaintamobileapp/utility/comingsoon.dart';
 
 class MainPortal extends StatefulWidget{
  @override
@@ -41,13 +43,13 @@ class _MainPortalState extends State<MainPortal>{
                                Icon(Icons.phone_rounded, color: Colors.blue, size: 70,)];
 
             List<Widget> actions = [Home(1, null,null,null),
-                               null, //ONECAINTAPASS
-                               null, //ONESERVICES
+                               ComingSoon("One Cainta Pass"), //ONECAINTAPASS
+                               ComingSoon("One Services"), //ONESERVICES
                                OneDonation(), //ONEDONATION
-                               null, //ONENEGOSYO
-                               null, //ONEORGANIZATION
+                               ComingSoon("One Negosyo"), //ONENEGOSYO
+                               OrgChart(), //ONEORGANIZATION
                                Home(2, null,null,null), //COVID19UPDATES
-                               null, //COVID19VACCINE
+                               ComingSoon("COVID19 Vaccine"), //COVID19VACCINE
                                WasteManagementForm(), //WASTEMANAGEMENT
                                JobOpening(), 
                                OnlineReservation(),

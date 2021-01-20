@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:onecaintamobileapp/screens/onlinereservationform.dart';
 import 'package:onecaintamobileapp/utility/flutttertoast.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:intl/intl.dart';
+import 'package:smart_select/smart_select.dart';
 
 
 
@@ -21,6 +23,12 @@ class _OnlineReservationState extends State<OnlineReservation> with TickerProvid
 
 //DIALOG
 BuildContext dialogContext;
+  String facility;
+  List<S2Choice<String>> options = [
+  S2Choice<String>(value: 'Cainta Gym', title: 'Cainta Gym'),
+  S2Choice<String>(value: 'Cainta Multi-Purpose Hall', title: 'Cainta Multi-Purpose Hall'),
+  S2Choice<String>(value: 'Cainta Office', title: 'Cainta Office'),
+];
 
 
 //CALENDARS
@@ -54,6 +62,11 @@ bool isLoading = false;
     final _selectedDay = DateTime.now();
 
  WidgetsBinding.instance.addPostFrameCallback((_) => showAlertDialog(dialogContext));
+
+   // S2Choice<String> shit = new S2Choice<String>(value: 'pekpek', title:'pekpek');
+  //   options.add(shit);
+
+   facility =options[0].value;
   
     _events = {
       _selectedDay.subtract(Duration(days: 30)): [
@@ -139,13 +152,19 @@ bool isLoading = false;
       events: _events,
       holidays: _holidays,
       startingDayOfWeek: StartingDayOfWeek.monday,
+      daysOfWeekStyle: DaysOfWeekStyle(weekendStyle:  TextStyle().copyWith(color: Colors.blueAccent) ),
       calendarStyle: CalendarStyle(
-        selectedColor: Colors.blueAccent[400],
-        todayColor: Colors.green[400],
-        markersColor: Colors.grey[700],
+        selectedColor: Colors.green[400],
+        todayColor: Colors.blue[400],
+        markersColor: Colors.blue[900],
         outsideDaysVisible: false,
+        weekendStyle: TextStyle().copyWith(color: Colors.blueAccent),
+        holidayStyle: TextStyle(color: Colors.orange[900], fontWeight: FontWeight.bold),
+       
+
       ),
       headerStyle: HeaderStyle(
+        centerHeaderTitle: true,
         formatButtonTextStyle:
             TextStyle().copyWith(color: Colors.white, fontSize: 15.0),
         formatButtonDecoration: BoxDecoration(
@@ -167,14 +186,15 @@ bool isLoading = false;
       children: <Widget>[
         Row(
           mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            RaisedButton(
+             SizedBox(height: 20.0, child: Text('Reserved Slots Below:', style:TextStyle(fontWeight: FontWeight.bold))),
+          RaisedButton(
               color: Colors.green[400],
               child: Text('Reserve for this day', style: TextStyle(color: Colors.white),),
               onPressed: () {
                   Navigator.push(context, MaterialPageRoute(builder: (_) {
-                  return OnlineReservationForm(_calendarController.selectedDay.month.toString() + "/" + _calendarController.selectedDay.day.toString() + "/" +_calendarController.selectedDay.year.toString());})); 
+                  return OnlineReservationForm( DateFormat('MM/dd/yyyy').format(_calendarController.selectedDay), facility);})); 
               },
             ),
           ],
@@ -263,23 +283,29 @@ showAlertDialog(BuildContext dialogContext) {
  
     return Scaffold( appBar:  AppBarBackButtonWidget(60,"none", "Online Reservations"),
 
-                    body:RefreshIndicator(
+                    body:SingleChildScrollView(child:RefreshIndicator(
                        child: Container (height: MediaQuery.of(context).size.height,
                          child:Column(
                            mainAxisSize: MainAxisSize.max,
         children: <Widget>[
-
            _buildTableCalendar(),
-          const SizedBox(height: 8.0),
-          _buildButtons(),
-          Padding(padding:EdgeInsets.only(left:10), child:Align(alignment: Alignment.centerLeft,child:SizedBox(height: 20.0, child: Text('Reserved Slots', style:TextStyle(fontWeight: FontWeight.bold))))),
+             SmartSelect<String>.single(
+                                            title: 'Facility',
+                                            value: facility,
+                                            choiceItems: options,
+                                              modalType: S2ModalType.bottomSheet,
+                                            
+                                            onChange: (state) => setState(() => facility = state.value)
+                                        ),
+           _buildButtons(),
 
-          Scrollbar(child:SingleChildScrollView(child:Container(height:MediaQuery.of(context).size.height*.30, child: _buildEventList()))),
+          Scrollbar(child:SingleChildScrollView(child:Container(height:MediaQuery.of(context).size.height*.25, child: _buildEventList()))),
                                            
                                           
         ]),
-                       ),onRefresh: () => refresh()),
-            
+                       ),onRefresh: () => refresh()
+                       ),
+                    ),
                     );
                  }
 }

@@ -23,18 +23,21 @@ Map<DateTime, List> _events;
   AnimationController _animationController;
   CalendarController _calendarController;
 
-// Example holidays
-// final Map<DateTime, List> _holidays = {
-//   DateTime(2021, 1, 1): ['New Year\'s Day'],
-//   DateTime(2021, 1, 6): ['Epiphany'],
-//   DateTime(2021, 2, 14): ['Valentine\'s Day'],
-//   DateTime(2021, 4, 21): ['Easter Sunday'],
-//   DateTime(2021 , 4, 22): ['Easter Monday'],
-// };
+//Example holidays
+final Map<DateTime, List> _holidays = {
+  DateTime(2021, 1, 1): ['New Year\'s Day'],
+  DateTime(2021, 1, 6): ['Epiphany'],
+  DateTime(2021, 2, 14): ['Valentine\'s Day'],
+  DateTime(2021, 4, 21): ['Easter Sunday'],
+  DateTime(2021 , 4, 22): ['Easter Monday'],
+};
 
 _CalendarState();
 bool IsRefresh = false;
 bool isLoading = false;
+
+//DIALOG
+BuildContext dialogContext;
 
   refresh() async {
 
@@ -45,6 +48,8 @@ bool isLoading = false;
   void initState() {
     super.initState();
     final _selectedDay = DateTime.now();
+
+     WidgetsBinding.instance.addPostFrameCallback((_) => showAlertDialog(dialogContext));
 
     _events = {
       _selectedDay.subtract(Duration(days: 30)): [
@@ -126,13 +131,16 @@ bool isLoading = false;
     return TableCalendar(
       calendarController: _calendarController,
       events: _events,
-     // holidays: _holidays,
+      holidays: _holidays,
       startingDayOfWeek: StartingDayOfWeek.monday,
+      daysOfWeekStyle: DaysOfWeekStyle(weekendStyle:  TextStyle().copyWith(color: Colors.blueAccent) ),
       calendarStyle: CalendarStyle(
-        selectedColor: Colors.blueAccent[400],
-        todayColor: Colors.green[400],
-        markersColor: Colors.grey[700],
+        selectedColor: Colors.green[400],
+        todayColor: Colors.blue[400],
+        markersColor: Colors.blue[900],
         outsideDaysVisible: false,
+        weekendStyle: TextStyle().copyWith(color: Colors.blueAccent),
+        holidayStyle: TextStyle(color: Colors.orange[900], fontWeight: FontWeight.bold),
       ),
       headerStyle: HeaderStyle(
         formatButtonTextStyle:
@@ -146,31 +154,6 @@ bool isLoading = false;
       // onVisibleDaysChanged: _onVisibleDaysChanged,
       // onCalendarCreated: _onCalendarCreated,
       availableCalendarFormats:  {CalendarFormat.month: 'Month'},
-    );
-  }
-
-  Widget _buildButtons() {
-    final dateTime = _events.keys.elementAt(_events.length - 2);
-
-    return Column(
-      children: <Widget>[
-        Row(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: <Widget>[
-            RaisedButton(
-              color: Colors.green[400],
-              child: Text('Reserve for this day', style: TextStyle(color: Colors.white),),
-              onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (_) {
-                  return OnlineReservationForm(_calendarController.selectedDay.month.toString() + "/" + _calendarController.selectedDay.day.toString() + "/" +_calendarController.selectedDay.year.toString());})); 
-              },
-            ),
-          ],
-        ),
-
-    
-      ],
     );
   }
 
@@ -194,6 +177,36 @@ bool isLoading = false;
     );
   }
 
+  
+showAlertDialog(BuildContext dialogContext) {
+
+  // set up the button
+  Widget okButton = FlatButton(
+    child: Text("Got it!"),
+    onPressed: () {
+      Navigator.of(dialogContext).pop();
+     },
+  );
+
+  // set up the AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: Text("Welcome to Cainta Calendar"),
+    content: Text("You can check for Cainta calendar activities here.\n\nBlue markers indicates activities for that day."),
+    actions: [
+      okButton,
+    ],
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+       dialogContext = context;
+      return alert;
+    },
+  );
+}
+
  void dispose() {
     _animationController.dispose();
     _calendarController.dispose();
@@ -204,18 +217,20 @@ bool isLoading = false;
  
     return Scaffold( appBar:  AppBarBackButtonWidget(60,"none", "Cainta Calendar"),
 
-                    body:RefreshIndicator(
+                    body:SingleChildScrollView(child:RefreshIndicator(
                        child: Container (height: MediaQuery.of(context).size.height,
                          child:Column(
                            mainAxisSize: MainAxisSize.max,
         children: <Widget>[
           _buildTableCalendar(),
           const SizedBox(height: 8.0),
-          Padding(padding:EdgeInsets.only(left:10), child:Align(alignment: Alignment.centerLeft,child:SizedBox(height: 20.0, child: Text('Events for this day', style:TextStyle(fontWeight: FontWeight.bold))))),
+          Padding(padding:EdgeInsets.only(left:10), child:Align(alignment: Alignment.centerLeft,child:SizedBox(height: 20.0, child: Text('Activities for this day', style:TextStyle(fontWeight: FontWeight.bold))))),
           Scrollbar(child:SingleChildScrollView(child:Container(height:MediaQuery.of(context).size.height*.30, child: _buildEventList()))),                        
                                           
         ]),
-      ),onRefresh: () => refresh()),       
+      ),onRefresh: () => refresh()
+      ),   
+     ),    
     );
   }
 }

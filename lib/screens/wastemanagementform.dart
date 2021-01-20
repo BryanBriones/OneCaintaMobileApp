@@ -49,6 +49,8 @@ String dateSelected;
 
 
 //DROPDOWN DIALOG SELECT
+//DIALOG
+BuildContext dialogContext;
   String location;
   List<S2Choice<String>> options = [
   S2Choice<String>(value: 'ion', title: 'Santa Rosa'),
@@ -68,6 +70,10 @@ String dateSelected;
   void initState() {
     // TODO: implement initState
     super.initState();
+
+    
+ WidgetsBinding.instance.addPostFrameCallback((_) => showAlertDialog(dialogContext));
+  
 
     dateSelected = DateFormat('MM/dd/yyyy').format(DateTime.now());
   
@@ -115,6 +121,36 @@ String dateSelected;
       dateSelected = DateFormat('MM/dd/yyyy').format(picked);
       dateController.text = dateSelected; 
     });
+}
+
+
+showAlertDialog(BuildContext dialogContext) {
+
+  // set up the button
+  Widget okButton = FlatButton(
+    child: Text("Got it!"),
+    onPressed: () {
+      Navigator.of(dialogContext).pop();
+     },
+  );
+
+  // set up the AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: Text("Welcome to Waste Management"),
+    content: Text("Here you can request garbage collection for your Barangay/Subdivision in Cainta.\n\nSelect your location and date you want to request and click 'Request for collection'"),
+    actions: [
+      okButton,
+    ],
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+       dialogContext = context;
+      return alert;
+    },
+  );
 }
 
   @override

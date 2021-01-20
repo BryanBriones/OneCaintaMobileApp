@@ -29,7 +29,6 @@ Future<void> refresh(){
     return Scaffold( appBar:  AppBarBackButtonWidget(60,"none", "Policies and Guidelines"),
 
                     body:Scrollbar(child:RefreshIndicator(
-                    
                        child:  SingleChildScrollView(
                         child: Container(
                                            //height: MediaQuery.of(context).size.height,

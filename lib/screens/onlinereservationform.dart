@@ -14,12 +14,13 @@ import 'package:onecaintamobileapp/screens/home.dart';
 
 
 class OnlineReservationForm extends StatefulWidget {
+  final String facility;
 final String dateSelected;
 
-  OnlineReservationForm(this.dateSelected);
+  OnlineReservationForm(this.dateSelected, this.facility);
    @override
  State<StatefulWidget> createState() {
-     return _OnlineReservationFormState(this.dateSelected);
+     return _OnlineReservationFormState(this.dateSelected, this.facility);
   }
 
 }
@@ -27,11 +28,11 @@ final String dateSelected;
 class _OnlineReservationFormState extends State<OnlineReservationForm>{
 
 
-
+String facility;
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   final formKey = GlobalKey<FormState>();
 
-_OnlineReservationFormState(this.dateSelected);
+_OnlineReservationFormState(this.dateSelected, this.facility);
 
 //FROM MODEL
 List<String> timeframes = [ "7AM","8AM", "9AM", "10AM", "11AM", "12PM", "1PM","2PM", "3PM", "4PM", "5PM", "6PM", "7PM", "8PM", "9PM", "10PM", "11PM", "12AM", "1AM","2AM", "3AM", "4AM", "5AM", "6AM"];
@@ -134,6 +135,30 @@ List<String> timeframes = [ "7AM","8AM", "9AM", "10AM", "11AM", "12PM", "1PM","2
               Form(
                 key: formKey,
                 child: Column( children: [
+                   Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 8.0, horizontal: 30),
+                    child: TextFormField(
+                          initialValue: facility,
+                          enabled: false,
+                          maxLength: 20,
+                             decoration: InputDecoration(
+                          counter: Offstage(),
+                           hintText: "Facility"
+                        ),
+                         obscureText: false,
+                         validator: (e){
+                           if(e.isEmpty)
+                                   return "Please insert facility";
+                           },
+                          onSaved: (e) => dateSelected = e,
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w300,
+                          ),                    
+                        )
+                   ),
                    Padding(
                     padding: const EdgeInsets.symmetric(
                         vertical: 8.0, horizontal: 30),
