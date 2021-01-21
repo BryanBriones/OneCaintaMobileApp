@@ -6,6 +6,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:onecaintamobileapp/screens/home.dart';
 
 //Screens
+import 'package:onecaintamobileapp/screens/onenegosyo.dart';
 import 'package:onecaintamobileapp/screens/oneorganization.dart';
 import 'package:onecaintamobileapp/screens/onedonation.dart';
 import 'package:onecaintamobileapp/screens/wastemanagementform.dart';
@@ -46,7 +47,7 @@ class _MainPortalState extends State<MainPortal>{
                                ComingSoon("One Cainta Pass"), //ONECAINTAPASS
                                ComingSoon("One Services"), //ONESERVICES
                                OneDonation(), //ONEDONATION
-                               ComingSoon("One Negosyo"), //ONENEGOSYO
+                               OneNegosyo(), //ONENEGOSYO
                                OrgChart(), //ONEORGANIZATION
                                Home(2, null,null,null), //COVID19UPDATES
                                ComingSoon("COVID19 Vaccine"), //COVID19VACCINE
