@@ -81,7 +81,7 @@ class _HomeState extends State<Home> {
                                                                 ),
                                                     )
                                               ),
-                                                Scrollbar(child: SingleChildScrollView(
+                                                Scrollbar(child:SingleChildScrollView(
                                                       child: Container(
                                                        height:MediaQuery.of(context).size.height * 0.9,
                                                       decoration: BoxDecoration(
@@ -97,7 +97,9 @@ class _HomeState extends State<Home> {
                                                                      )     
                                                                         
                                                                 ),
-                                                    )
+                                                    ),
+
+                                                  
                                               ),
                                               Scrollbar(child: SingleChildScrollView(
                                                       child: Container(

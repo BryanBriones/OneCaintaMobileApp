@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+
+//Models
+import 'package:onecaintamobileapp/model/newsmodel.dart';
+
 //Components
 import 'package:onecaintamobileapp/components/home/appbarbackbtn.dart';
 import 'package:onecaintamobileapp/components/news/newsbannerimagewidget.dart';

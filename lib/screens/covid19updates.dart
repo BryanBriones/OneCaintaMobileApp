@@ -108,7 +108,7 @@ String dateSlug ="${DateTime.now().month.toString().padLeft(2,'0')}-${DateTime.n
   }                                                            
   @override
   Widget build(BuildContext context) {
-    return Scrollbar(child: SingleChildScrollView(
+    return  SingleChildScrollView(
                     child: 
                      NotificationListener<ScrollNotification>(
                                       onNotification: (_) => true,
@@ -240,8 +240,7 @@ String dateSlug ="${DateTime.now().month.toString().padLeft(2,'0')}-${DateTime.n
                                   })
                    ) 
     ]),    
-    ),        
-    ),                            
+    ),                                    
     );
   }
 }
