@@ -15,5 +15,11 @@ module.exports = function (router) {
         .put(newsRepository.put)
         .delete(newsRepository.delete);
 
+    //ADMIN API ROUTES BELOW:
+    
+    router.route('/newsadmin')
+        .get(newsRepository.getAllAdmin);
+
+
 
 }

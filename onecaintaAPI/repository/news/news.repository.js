@@ -24,7 +24,7 @@ function NewsRepository(dbContext) {
                     req.data = result.recordset[0];
                     return next();
                 }
-                return res.json('No item found. Item not existing');
+              return res.json({"message":"No item found. Item not existing"});
             
         }
 
@@ -51,6 +51,23 @@ function NewsRepository(dbContext) {
           
     }
 
+    async function getAllNewsAdmin(req, res) {
+
+        var query = "SELECT NewsID, Headline, NewsPreviewText, NewsBodyText, NewsDate, HeadlineImg, IsActive FROM dbo.News";
+
+        var result = await dbContext.execQuery(query, null, false);
+       
+        
+       if(result.rowsAffected[0] > 0)
+           {
+              req.data = result.recordset;
+              return res.json(req.data);
+           }
+            
+          return res.sendStatus(404);
+          
+    }
+
 
 
 
@@ -58,12 +75,12 @@ function NewsRepository(dbContext) {
    async function postNews(req, res) {
         var parameters = [];
 
-        parameters.push({ name: 'headline', type: TYPES.VarChar, val: req.body.headline});
-        parameters.push({ name: 'newsbody', type: TYPES.NVarChar, val: req.body.newsbody});
-        parameters.push({ name: 'newsPreview', type: TYPES.VarChar, val: req.body.newsPreview});
-        parameters.push({ name: 'newsdate', type: TYPES.VarChar, val: req.body.newsdate});
-        parameters.push({ name: 'headlineImg', type: TYPES.VarChar, val: req.body.headlineImg});
-        parameters.push({ name: 'isactive', type: TYPES.Bit, val: req.body.isactive });
+        parameters.push({ name: 'headline', type: TYPES.VarChar, val: req.body.Headline});
+        parameters.push({ name: 'newsbody', type: TYPES.NVarChar, val: req.body.NewsBodyText});
+        parameters.push({ name: 'newsPreview', type: TYPES.VarChar, val: req.body.NewsPreviewText});
+        parameters.push({ name: 'newsdate', type: TYPES.VarChar, val: req.body.NewsDate});
+        parameters.push({ name: 'headlineImg', type: TYPES.VarChar, val: req.body.HeadlineImg});
+        parameters.push({ name: 'isactive', type: TYPES.VarChar, val: req.body.IsActive });
         parameters.push({ name: 'systemdate', type: TYPES.DateTime, val: new Date() });
 
         for(var i=0; i<parameters.length;i++){
@@ -71,8 +88,8 @@ function NewsRepository(dbContext) {
             if(parameters[i].val == null)
             {
                 console.log(parameters[i].name +'is missing. Insert failed.');
-                return res.json( 'Insert failed, parameters missing.');
-  
+                return res.json({"message":"Insert failed, parameters missing."});
+                
             }
 
         }
@@ -89,11 +106,12 @@ function NewsRepository(dbContext) {
           
    
             if (result.rowsAffected[0] > 0) {
+               return res.json({"message":"News Article Added"});
                   
-                return res.json(result.recordset);
+               
             }
            
-            return res.json( 'Insert failed. Might be API issue check logs.');
+         return res.json({"message":"Insert failed. Might be API issue check logs."});
       
     }
 
@@ -113,12 +131,12 @@ function NewsRepository(dbContext) {
         var parameters = [];
 
         parameters.push({ name: 'Id', type: TYPES.Int, val: req.params.newsId });
-        parameters.push({ name: 'headline', type: TYPES.VarChar, val: req.body.headline});
-        parameters.push({ name: 'newsbody', type: TYPES.NVarChar, val: req.body.newsbody});
-        parameters.push({ name: 'newsPreview', type: TYPES.VarChar, val: req.body.newsPreview});
-        parameters.push({ name: 'newsdate', type: TYPES.VarChar, val: req.body.newsdate});
-        parameters.push({ name: 'headlineImg', type: TYPES.VarChar, val: req.body.headlineImg});
-        parameters.push({ name: 'isactive', type: TYPES.Bit, val: req.body.isactive });
+        parameters.push({ name: 'headline', type: TYPES.VarChar, val: req.body.Headline});
+        parameters.push({ name: 'newsbody', type: TYPES.NVarChar, val: req.body.NewsBodyText});
+        parameters.push({ name: 'newsPreview', type: TYPES.VarChar, val: req.body.NewsPreviewText});
+        parameters.push({ name: 'newsdate', type: TYPES.VarChar, val: req.body.NewsDate});
+        parameters.push({ name: 'headlineImg', type: TYPES.VarChar, val: req.body.HeadlineImg});
+        parameters.push({ name: 'isactive', type: TYPES.VarChar, val: req.body.IsActive });
         parameters.push({ name: 'systemdate', type: TYPES.DateTime, val: new Date() });
 
  
@@ -176,14 +194,17 @@ function NewsRepository(dbContext) {
       query = updateQuery + setQuery + WhereClause;
 
       console.log(query);
+      console.log(req.params);
 
                 var result = await dbContext.execQuery(query, parameters,false);
-             
+                console.log(result);
+                console.log(parameters);
                 if (result.rowsAffected[0] > 0) {
-                        return res.json('News Article Saved.');
-                    }
+                      return res.json({"message":"News Article Saved."});
                    
-                    return res.sendStatus(422);
+                    }
+                 
+                    return res.sendStatus(500);  //UPDATE FAILED
     }
 
   async function deleteNews(req, res) {
@@ -200,15 +221,16 @@ function NewsRepository(dbContext) {
             var result =  await dbContext.execQuery(query, parameters, false);
                
                 if (result.rowsAffected[0] > 0) { 
-                    return res.json('Record is deleted');
+                   return res.json({"message":"Record is deleted"});
                 }
-                return res.json('Delete failed.');
+                   return res.json({"message":"Delete failed."});
         }
         
     }
 
 
     return {
+        getAllAdmin: getAllNewsAdmin,
         getAll: getAllNews,
         get: getNews,
         post: postNews,
