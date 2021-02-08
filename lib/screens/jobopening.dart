@@ -25,35 +25,8 @@ class JobOpening extends StatefulWidget {
 
 class _JobOpeningState extends State<JobOpening> {
 
-// List<String> imgList = [
-//   'assets/caintalogo.png',
-// 'assets/caintalogo.png',
-// 'assets/caintalogo.png',
-// 'assets/caintalogo.png',
-// 'assets/caintalogo.png',
-//  'assets/caintalogo.png'
-// ]; 
-//  List<String> jobHeadlines = [
-//   'Municipal Staff',
-//   'Municipal Manager',
-//   'Janitor',
-//   'Office Staff',
-//   'Encoder',
-//   'Cashier'
-// ]; 
-
-// List<String> jobSalaryRange = [
-//   'PHP 15000-20000',
-//   'PHP 25000-30000',
-//   'PHP 13000-15000',
-//   'PHP 15000-20000',
-//   'PHP 15000-20000',
-//   'PHP 15000-20000',
-// ]; 
 String formatDate(DateTime date) => new DateFormat("MMMM dd, yyyy").format(date);
 
-//String dateSlug ="${DateTime.now().month.toString().padLeft(2,'0')}-${DateTime.now().day.toString().padLeft(2,'0')}-${DateTime.now().year.toString()}";
- //List<String> jobdates;
 
 _JobOpeningState();
 bool IsRefresh = false;
@@ -68,7 +41,6 @@ bool isLoading = false;
   void initState() {
     super.initState();
     
- // jobdates = [dateSlug,dateSlug,dateSlug,dateSlug,dateSlug,dateSlug]; 
 
   }
 
