@@ -2,26 +2,33 @@
 
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 
 class JobsTitleInfoWidget extends StatefulWidget {
 
 final String jobheadline;
 final String date;
-final String salaryrange;
-JobsTitleInfoWidget(this.jobheadline, this.date, this.salaryrange);
+final int salaryrangelow;
+final int salaryrangehigh;
+
+JobsTitleInfoWidget(this.jobheadline, this.date, this.salaryrangelow, this.salaryrangehigh);
  @override
-  _JobsTitleInfoWidgetState createState() => _JobsTitleInfoWidgetState(this.jobheadline, this.date, this.salaryrange);
+  _JobsTitleInfoWidgetState createState() => _JobsTitleInfoWidgetState(this.jobheadline, this.date,this.salaryrangelow, this.salaryrangehigh);
 }
 
 class _JobsTitleInfoWidgetState extends State<JobsTitleInfoWidget>{
 
 final String jobheadline;
 final String date;
-final String salaryrange;
-_JobsTitleInfoWidgetState(this.jobheadline, this.date, this.salaryrange);
+final int salaryrangelow;
+final int salaryrangehigh;
+_JobsTitleInfoWidgetState(this.jobheadline, this.date, this.salaryrangelow, this.salaryrangehigh);
 
  final _key = new GlobalKey<FormState>();
+
+ 
+String formatDate(DateTime date) => new DateFormat("MMMM dd, yyyy").format(date);
 showloadingscreen(BuildContext context)
    {
      
@@ -55,7 +62,7 @@ showloadingscreen(BuildContext context)
                           children:[
                                   Padding( padding: EdgeInsets.fromLTRB(10,10,0,0), child:Row(children: [
                                                                                   Padding(padding:EdgeInsets.only(right:3), child:Icon(Icons.calendar_today_rounded, size:15, color:  Colors.black.withOpacity(0.6),)),
-                                                                                  Text( date,style: TextStyle(color: Colors.black.withOpacity(0.6), fontWeight: FontWeight.bold),)
+                                                                                  Text( formatDate(DateTime.parse(date)),style: TextStyle(color: Colors.black.withOpacity(0.6), fontWeight: FontWeight.bold),)
                                                                                   ])),
                                    Padding( padding: EdgeInsets.all(10), child:Text(jobheadline, style: TextStyle( fontSize: 22, fontWeight: FontWeight.bold, color: Colors.blue[900]))),
                                     ButtonBar(
@@ -69,7 +76,7 @@ showloadingscreen(BuildContext context)
                                                       child:  FlatButton(child: Icon(Icons.money, color: Colors.green),
                                                 onPressed: null) ,
                                                 ),
-                                                Text(salaryrange), //NUMBER OF LIKES
+                                                Text('PHP ' + salaryrangelow.toString() + ' - ' + salaryrangehigh.toString()), 
                                             ],
                             ),
                        ],),

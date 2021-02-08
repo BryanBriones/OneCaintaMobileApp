@@ -109,7 +109,7 @@ void dispose() {
         ),
         onTap: () {
           Navigator.push(context, MaterialPageRoute(builder: (_) {
-                  return NewsDetail(item.headlineImg,item.headline, item.newsdate);})); 
+                  return NewsDetail(item.headlineImg,item.headline, item.newsdate, item.newsbody);})); 
 
         },
         );}
@@ -202,7 +202,7 @@ void dispose() {
                                                                                                     flex:7,
                                                                                                     child: ListTile(
                                                                                                 title:  Padding(padding:EdgeInsets.fromLTRB(2,5,5,5), child:Text(data[index].headline,  maxLines: 2, overflow: TextOverflow.ellipsis, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17, color: Colors.blue[900]))),
-                                                                                                subtitle: Padding(padding:EdgeInsets.all(5), child:Text(data[index].newsPreview, maxLines: 3, overflow: TextOverflow.ellipsis, //PREVIEW NEWS TEXT
+                                                                                                subtitle: Padding(padding:EdgeInsets.all(5), child:Text(data[index].newsPreview.replaceAll(r'\n', '\n'), maxLines: 3, overflow: TextOverflow.ellipsis, //PREVIEW NEWS TEXT
                                                                                                   style: TextStyle(color: Colors.black.withOpacity(0.6)),
                                                                                                 ),),
                                                                                               ),
@@ -251,7 +251,7 @@ void dispose() {
                                                                                             ),
                                                                                           onTap: () {
                                                                                                                           Navigator.push(context, MaterialPageRoute(builder: (_) {
-                                                                                                                         return NewsDetail(data[index].headlineImg,data[index].headline, data[index].newsdate);}));                                  
+                                                                                                                         return NewsDetail(data[index].headlineImg,data[index].headline, data[index].newsdate, data[index].newsbody);}));                                  
                                                                                       },    
                                                                                                    
                                                                                         );

@@ -11,20 +11,25 @@ class JobsDetail extends StatefulWidget
 {
   final String imgPath;
   final String jobheadline;
-   final String salaryrange;
+
+    final int salaryrangelow;
+     final int salaryrangehigh;
+     final String jobdesctext;
   final String date;
-  JobsDetail(this.imgPath,this.jobheadline,this.date, this.salaryrange);
+  JobsDetail(this.imgPath,this.jobheadline,this.date, this.salaryrangelow, this.salaryrangehigh, this.jobdesctext);
   @override
-_JobsDetailState createState() => _JobsDetailState(this.imgPath,this.jobheadline,this.date, this.salaryrange);
+_JobsDetailState createState() => _JobsDetailState(this.imgPath,this.jobheadline,this.date, this.salaryrangelow, this.salaryrangehigh, this.jobdesctext);
  
 }
 @override
 class _JobsDetailState extends State<JobsDetail>{
   final String imgPath;
   final String jobheadline;
-   final String salaryrange;
   final String date;
-  _JobsDetailState(this.imgPath,this.jobheadline,this.date, this.salaryrange);
+     final int salaryrangelow;
+     final int salaryrangehigh;
+     final String jobdesctext;
+  _JobsDetailState(this.imgPath,this.jobheadline,this.date, this.salaryrangelow, this.salaryrangehigh, this.jobdesctext);
 
    refresh() async {
   
@@ -64,8 +69,8 @@ class _JobsDetailState extends State<JobsDetail>{
                                                       child:  Column(mainAxisSize: MainAxisSize.max,
                                                                     children:[
                                                                               JobsBannerImageWidget(imgPath),
-                                                                              JobsTitleInfoWidget(jobheadline,date, salaryrange),
-                                                                              JobsContentWidget()
+                                                                              JobsTitleInfoWidget(jobheadline,date, salaryrangelow, salaryrangehigh),
+                                                                              JobsContentWidget(jobdesctext)
                                                                             ],
                                                                         ),
                                                                 )

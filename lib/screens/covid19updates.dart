@@ -99,7 +99,7 @@ String dateSlug ="${DateTime.now().month.toString().padLeft(2,'0')}-${DateTime.n
         ),
         onTap: () {
           Navigator.push(context, MaterialPageRoute(builder: (_) {
-                  return NewsDetail(imgList[imgList.indexOf(item)],headlines[imgList.indexOf(item)], newsdates[imgList.indexOf(item)]);})); 
+                  return NewsDetail(imgList[imgList.indexOf(item)],headlines[imgList.indexOf(item)], newsdates[imgList.indexOf(item)], headlines[imgList.indexOf(item)]);})); 
 
         },
         );}
@@ -234,7 +234,7 @@ String dateSlug ="${DateTime.now().month.toString().padLeft(2,'0')}-${DateTime.n
                                           ),
                                          onTap: () {
                                                                         Navigator.push(context, MaterialPageRoute(builder: (_) {
-                                                                        return NewsDetail(imgList[index],headlines[index], newsdates[index]);}));                                  
+                                                                        return NewsDetail(imgList[index],headlines[index], newsdates[index], headlines[index]);}));                                  
                                      },                 
                                       );
                                   })

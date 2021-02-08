@@ -16,9 +16,10 @@ class NewsDetail extends StatefulWidget
   final String imgPath;
   final String headline;
   final String date;
-  NewsDetail(this.imgPath,this.headline,this.date);
+  final String newsbody;
+  NewsDetail(this.imgPath,this.headline,this.date, this.newsbody);
   @override
-_NewsDetailState createState() => _NewsDetailState(this.imgPath,this.headline,this.date);
+_NewsDetailState createState() => _NewsDetailState(this.imgPath,this.headline,this.date,this.newsbody);
  
 }
 @override
@@ -26,7 +27,8 @@ class _NewsDetailState extends State<NewsDetail>{
    String imgPath;
   String headline;
   String date;
-  _NewsDetailState(this.imgPath,this.headline,this.date);
+  String newsbody;
+  _NewsDetailState(this.imgPath,this.headline,this.date,this.newsbody);
 
    refresh() async {
   
@@ -50,7 +52,7 @@ class _NewsDetailState extends State<NewsDetail>{
                                                                     children:[
                                                                               NewsBannerImageWidget(imgPath),
                                                                               NewsTitleInfoWidget(headline,date),
-                                                                              NewsContentWidget()
+                                                                              NewsContentWidget(newsbody)
                                                                             ],
                                                                         ),
                                                                 )

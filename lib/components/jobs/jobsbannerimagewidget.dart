@@ -29,7 +29,7 @@ _JobsBannerImageWidgetState(this.imgPath);
                                     width:MediaQuery.of(context).size.width,
                                     color: Colors.black,
                                       child: ImageFade(
-                                              image: AssetImage(imgPath),
+                                              image: NetworkImage(imgPath),
                                               placeholder: Container(
                                                 color: Color(0xFFCFCDCA).withOpacity(0.3),
                                               ),
