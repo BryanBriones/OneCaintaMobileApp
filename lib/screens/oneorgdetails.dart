@@ -7,6 +7,9 @@ import 'package:onecaintamobileapp/components/oneorg/oneorgtitleinfo.dart';
 import 'package:onecaintamobileapp/components/oneorg/oneorgcontent.dart';
 
 
+
+
+
 class OneOrgDetails extends StatefulWidget
 {
   final String imgPath;
@@ -37,24 +40,6 @@ class _OneOrgDetailsState extends State<OneOrgDetails>{
   Widget build(BuildContext context) {
    
     return Scaffold( appBar: AppBarBackButtonWidget(40,"none",""),
-    //  floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterDocked,
-    //       floatingActionButton: Container(
-    //                         height:100.0,
-    //                         width: 200.0,
-    //                         child: FittedBox( child:FloatingActionButton.extended(
-    //                                             elevation: 40.0,
-    //                                             icon: Icon(Icons.check_circle_rounded,color: Colors.white.withOpacity(0.9),),
-    //                                             label:  Text("Apply for this job", style: TextStyle(color: Colors.white.withOpacity(0.9))),
-    //                                             backgroundColor: Colors.green[500],
-    //                                             onPressed: ()
-    //                                             {
-    //                                                   return null;
-
-                                                
-    //                                             }     
-                                            
-    //                       ))),
- 
                     body:Scrollbar(child:RefreshIndicator(
                           child: SingleChildScrollView(
                           child:  Container(

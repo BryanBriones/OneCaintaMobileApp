@@ -66,7 +66,7 @@ showloadingscreen(BuildContext context)
 //     </div>
 // </div>"""          
 //                               )
-       Padding(padding: EdgeInsets.fromLTRB(10, 10, 10, 0),child:Text(govOfficialDesc)),
+       Padding(padding: EdgeInsets.fromLTRB(10, 10, 10, 0),child:Text(govOfficialDesc.replaceAll(r'\n', '\n'))),
                                    
                        ],),
               )),
